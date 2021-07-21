@@ -3,17 +3,24 @@ import './content.css';
 import Messages from './ChatRoom/Messages/Messages';
 import Header from './Header';
 import UserList from './ChatRoom/UserList/UserList';
-import RoomList from './RoomList/Room';
+import RoomList from './RoomList/RoomList';
 
-const Content = (props) => {
+const Content = ({ currentRoom, roomList, onClickRoom, addMyChat }) => {
   return (
     <div className='content'>
-      <Header />
-      {/* <RoomList /> */}
-      <div className='chatRoom'>
-        <Messages />
-        <UserList />
-      </div>
+      <Header currentRoom={currentRoom} />
+      {currentRoom ? (
+        <div className='chatRoom'>
+          <Messages />
+          <UserList />
+        </div>
+      ) : (
+        <RoomList
+          roomList={roomList}
+          onClickRoom={onClickRoom}
+          addMyChat={addMyChat}
+        />
+      )}
     </div>
   );
 };

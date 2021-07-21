@@ -1,9 +1,14 @@
 import React from 'react';
 
-const Header = (props) => {
+const Header = ({ currentRoom }) => {
+  const title = currentRoom;
   return (
     <header className='header'>
-      <h1 className='headertext'>Header</h1>
+      {title ? (
+        <h1 className='headertext'>{title}</h1>
+      ) : (
+        <h1 className='headertext'>현재 목록</h1>
+      )}
     </header>
   );
 };

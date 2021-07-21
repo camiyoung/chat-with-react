@@ -1,19 +1,14 @@
 import React from 'react';
 
-const RoomList = (props) => {
-  const rooms = ['room1', 'room2', 'room3'];
-
+const Room = ({ room, onClickRoom, addMyChat }) => {
+  const onRoom = () => {
+    onClickRoom(room);
+    addMyChat(room);
+  };
   return (
-    <div>
-      <ul className='rooms'>
-        {rooms.map((room) => (
-          <li className='room '>
-            <p>{room}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <li className='room ' onClick={onRoom}>
+      <p>{room}</p>
+    </li>
   );
 };
-
-export default RoomList;
+export default Room;
