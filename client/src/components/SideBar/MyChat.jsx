@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MyChat = ({ title, onClickRoom }) => {
   const onRoom = () => {
@@ -6,7 +7,9 @@ const MyChat = ({ title, onClickRoom }) => {
   };
   return (
     <li onClick={onRoom} className='mychat'>
-      <div>{title}</div>
+      <Link to={`${title}`}>
+        <div>{title}</div>
+      </Link>
     </li>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Room = ({ room, onClickRoom, addMyChat }) => {
   const onRoom = () => {
@@ -7,7 +8,9 @@ const Room = ({ room, onClickRoom, addMyChat }) => {
   };
   return (
     <li className='room ' onClick={onRoom}>
-      <p>{room}</p>
+      <Link to={`/${room}`}>
+        <p>{room}</p>
+      </Link>
     </li>
   );
 };

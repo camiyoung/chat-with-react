@@ -1,5 +1,6 @@
 import React from 'react';
 import './content.css';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import Messages from './ChatRoom/Messages/Messages';
 import Header from './Header';
 import UserList from './ChatRoom/UserList/UserList';
@@ -9,18 +10,25 @@ const Content = ({ currentRoom, roomList, onClickRoom, addMyChat }) => {
   return (
     <div className='content'>
       <Header currentRoom={currentRoom} />
-      {currentRoom ? (
-        <div className='chatRoom'>
-          <Messages />
-          <UserList />
-        </div>
-      ) : (
-        <RoomList
-          roomList={roomList}
-          onClickRoom={onClickRoom}
-          addMyChat={addMyChat}
-        />
-      )}
+      <Switch>
+        (
+        <>
+          <Route exact path='/list'>
+            <RoomList
+              roomList={roomList}
+              onClickRoom={onClickRoom}
+              addMyChat={addMyChat}
+            />
+          </Route>
+          <Route exact path={`/room:id`}>
+            <div className='chatRoom'>
+              <Messages />
+              <UserList />
+            </div>
+          </Route>
+        </>
+        )
+      </Switch>
     </div>
   );
 };

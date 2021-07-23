@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './app.css';
 import Content from './components/Content/Content';
 import SideBar from './components/SideBar/SideBar';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
 function App() {
   const [currentRoom, setCurrentRoom] = useState();
@@ -37,22 +37,24 @@ function App() {
   };
 
   return (
-    <div className='app'>
-      <SideBar
-        roomList={myChatList}
-        addMyChat={addMyChat}
-        currentRoom={currentRoom}
-        onClickRoom={onClickRoom}
-        onRoomListBtn={onRoomListBtn}
-        onNewChatBtn={onNewChatBtn}
-      />
-      <Content
-        roomList={activedRooms}
-        currentRoom={currentRoom}
-        onClickRoom={onClickRoom}
-        addMyChat={addMyChat}
-      />
-    </div>
+    <BrowserRouter>
+      <div className='app'>
+        <SideBar
+          roomList={myChatList}
+          addMyChat={addMyChat}
+          currentRoom={currentRoom}
+          onClickRoom={onClickRoom}
+          onRoomListBtn={onRoomListBtn}
+          onNewChatBtn={onNewChatBtn}
+        />
+        <Content
+          roomList={activedRooms}
+          currentRoom={currentRoom}
+          onClickRoom={onClickRoom}
+          addMyChat={addMyChat}
+        />
+      </div>
+    </BrowserRouter>
   );
 }
 
