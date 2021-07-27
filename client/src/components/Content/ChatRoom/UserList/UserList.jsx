@@ -1,14 +1,11 @@
 import React from 'react';
 
-const UserList = (props) => {
-  const users = [{ username: 'abc' }, { username: 'sdf' }, { username: '🐱' }];
-
+const UserList = ({ users }) => {
+  console.log(users);
   return (
     <ul className='usersList'>
       <li className='username'>참여자 목록</li>
-      {users.map((user) => (
-        <li>{user.username}</li>
-      ))}
+      {users && users.map((user) => <li>{user}</li>)}
     </ul>
   );
 };

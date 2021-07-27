@@ -5,7 +5,11 @@ const Buttons = ({ onRoomListBtn, setActiveStatus }) => {
   const onNewchatBtn = () => {};
   return (
     <div className='buttons'>
-      <Link to='/list' className='btn_roomlist' onClick={onRoomListBtn}>
+      <Link
+        to='/chat?name=aaa&room=list'
+        className='btn_roomlist'
+        onClick={onRoomListBtn}
+      >
         채팅방목록
       </Link>
       <div className='btn_newchat' onClick={setActiveStatus}>

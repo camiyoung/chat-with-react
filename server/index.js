@@ -16,10 +16,10 @@ router.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
-router.get('/rooms', (req, res) => {
+router.get('/chat', (req, res) => {
   const rooms = roomRepository.getRooms();
   rooms.map((room) => {
-    console.log(room.title);
+    console.log('get/chat');
   });
   res.status(200).json(rooms);
 });
@@ -31,7 +31,7 @@ router.get('/room', async function (req, res) {
   res.sendStatus(200);
 });
 
-router.post('/room', (req, res) => {
+router.post('/chat', (req, res) => {
   console.log(req.body.title);
   const { title, username } = req.body;
   const created = roomRepository.createRoom(title, username);

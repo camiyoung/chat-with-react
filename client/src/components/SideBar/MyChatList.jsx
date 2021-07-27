@@ -1,7 +1,7 @@
 import React from 'react';
 import MyChat from './MyChat';
 
-const MyChatList = ({ roomList, onClickRoom, addMyChat }) => {
+const MyChatList = ({ roomList, onClickRoom, addMyChat, username }) => {
   return (
     <ul className='myChatRoomList'>
       {roomList.map((room) => (
@@ -9,6 +9,7 @@ const MyChatList = ({ roomList, onClickRoom, addMyChat }) => {
           title={room.title}
           onClickRoom={onClickRoom}
           addMyChat={addMyChat}
+          username={username}
         />
       ))}
     </ul>

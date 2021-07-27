@@ -1,7 +1,7 @@
 import React from 'react';
 import Room from './Room';
 
-const RoomList = ({ roomList, onClickRoom, addMyChat }) => {
+const RoomList = ({ roomList, onClickRoom, addMyChat, username }) => {
   return (
     <div>
       <ul className='rooms'>
@@ -10,6 +10,7 @@ const RoomList = ({ roomList, onClickRoom, addMyChat }) => {
             room={room.title}
             onClickRoom={onClickRoom}
             addMyChat={addMyChat}
+            username={username}
           />
         ))}
       </ul>
