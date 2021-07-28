@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import './sideBar.css';
 import Buttons from './Buttons';
 import MyChatList from './MyChatList';
+import { useHistory } from 'react-router';
 
 const SideBar = ({
   roomList,
@@ -10,16 +11,19 @@ const SideBar = ({
   onNewChatBtn,
   addMyChat,
   username,
+  chatService,
 }) => {
   const [activeForm, setActiveForm] = useState(false);
   const inputRef = useRef();
+  const history = useHistory();
   const onSubmit = (e) => {
     e.preventDefault();
     setActiveForm(false);
     addMyChat(inputRef.current.value);
     onNewChatBtn(inputRef.current.value);
     onClickRoom(inputRef.current.value);
-    makeNweRoom(inputRef.current.value, username);
+    chatService.postRoom(username, inputRef.current.value);
+    history.push(`chat?name=${username}&room=${inputRef.current.value}`);
   };
 
   const makeNweRoom = useCallback((title, username) => {
@@ -43,6 +47,7 @@ const SideBar = ({
         onRoomListBtn={onRoomListBtn}
         setActiveStatus={setActiveStatus}
         onClickRoom={onClickRoom}
+        username={username}
       />
       {activeForm && (
         <form>

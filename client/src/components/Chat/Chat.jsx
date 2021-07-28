@@ -4,6 +4,12 @@ import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
 import queryString from 'query-string';
 
+import HttpClient from '../../service/http';
+import ChatService from '../../service/chat';
+
+const httpClient = new HttpClient('http://localhost:8080');
+const chatService = new ChatService(httpClient);
+
 const Chat = ({ location }) => {
   const [username, setUsername] = useState('');
   const [currentRoom, setCurrentRoom] = useState();
@@ -12,6 +18,7 @@ const Chat = ({ location }) => {
     { title: 'room2' },
     { title: 'room3' },
   ]);
+  console.log(chatService.hello());
   const [myChatList, setMyChatList] = useState([]);
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -21,17 +28,13 @@ const Chat = ({ location }) => {
   }, [location.search]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/chat`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
+    chatService
+      .getRoomList()
       .then((data) => {
         setActivedRooms(data);
         console.log(data);
-      });
+      })
+      .catch((error) => console.log(error));
   }, [location]);
 
   function onClickRoom(title) {
@@ -67,6 +70,7 @@ const Chat = ({ location }) => {
         onRoomListBtn={onRoomListBtn}
         onNewChatBtn={onNewChatBtn}
         username={username}
+        chatService={chatService}
       />
       <Content
         roomList={activedRooms}

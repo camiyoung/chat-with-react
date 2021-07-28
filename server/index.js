@@ -19,23 +19,16 @@ router.get('/', (req, res) => {
 router.get('/chat', (req, res) => {
   const rooms = roomRepository.getRooms();
   rooms.map((room) => {
-    console.log('get/chat');
+    console.log('채팅 목록 불러오기');
   });
   res.status(200).json(rooms);
 });
 
-router.get('/room', async function (req, res) {
-  const id = req.query.roomid;
-  const room = await roomRepository.getRoomById(parseInt(id));
-  console.log(room);
-  res.sendStatus(200);
-});
-
 router.post('/chat', (req, res) => {
-  console.log(req.body.title);
   const { title, username } = req.body;
   const created = roomRepository.createRoom(title, username);
   res.status(201).json(created);
+  console.log(`채팅방 생성 ${title}`);
 });
 app.use(router);
 

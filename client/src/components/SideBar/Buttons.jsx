@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Buttons = ({ onRoomListBtn, setActiveStatus }) => {
+const Buttons = ({ onRoomListBtn, setActiveStatus, username }) => {
   const onNewchatBtn = () => {};
   return (
     <div className='buttons'>
       <Link
-        to='/chat?name=aaa&room=list'
+        to={`/chat?name=${username}&room=list`}
         className='btn_roomlist'
         onClick={onRoomListBtn}
       >

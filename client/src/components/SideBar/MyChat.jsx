@@ -7,7 +7,7 @@ const MyChat = ({ title, onClickRoom, username }) => {
   };
   return (
     <li onClick={onRoom} className='mychat'>
-      <Link to={`/chat?name=${username}&&room=${title}`}>
+      <Link to={`/chat?name=${username}&room=${title}`}>
         <div>{title}</div>
       </Link>
     </li>
