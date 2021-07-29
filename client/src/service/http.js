@@ -2,8 +2,8 @@ export default class HttpClient {
   constructor(baseURL) {
     this.baseURL = baseURL;
   }
-  async fetch(options) {
-    const res = await fetch(`http://localhost:8080/chat`, {
+  async fetch(url, options) {
+    const res = await fetch(`${this.baseURL}${url}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',

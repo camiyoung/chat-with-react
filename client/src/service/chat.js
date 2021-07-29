@@ -3,19 +3,36 @@ export default class ChatService {
     this.http = http;
   }
 
+  async signup(username) {
+    return this.http.fetch(`/signup`, {
+      method: 'POST',
+      body: JSON.stringify({ username }),
+    });
+  }
+
   async getRoomList() {
-    return this.http.fetch({
+    return this.http.fetch(`/chat`, {
+      method: 'GET',
+    });
+  }
+
+  async getMyRooms(username) {
+    return this.http.fetch(`/chat/${username}`, {
       method: 'GET',
     });
   }
 
   async postRoom(username, title) {
-    return this.http.fetch({
+    return this.http.fetch('/chat', {
       method: 'POST',
       body: JSON.stringify({ username, title }),
     });
   }
-  hello() {
-    console.log('hello');
+
+  async joinRoom(username, title) {
+    return this.http.fetch(`/chat/${title}`, {
+      method: 'POST',
+      body: JSON.stringify({ username }),
+    });
   }
 }

@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-const Join = (props) => {
+import { Link, useHistory } from 'react-router-dom';
+const Join = ({ chatService, setUsername }) => {
   const [name, setName] = useState('');
+  const history = useHistory();
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setUsername(name);
+    chatService
+      .signup(name)
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+    history.push({ pathname: `/chat/${name}`, state: { username: name } });
+  };
 
   return (
     <div className='joinOuterContainer'>
@@ -16,14 +27,9 @@ const Join = (props) => {
           />
         </div>
 
-        <Link
-          onClick={(e) => (!name ? e.preventDefault() : null)}
-          to={`/chat?name=${name}&room=list`}
-        >
-          <button className={'button mt-20'} type='submit'>
-            Sign In
-          </button>
-        </Link>
+        <button className={'button mt-20'} type='submit' onClick={onSubmit}>
+          Sign In
+        </button>
       </div>
     </div>
   );

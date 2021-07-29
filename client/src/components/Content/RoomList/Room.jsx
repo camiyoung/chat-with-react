@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Room = ({ room, onClickRoom, addMyChat, username }) => {
+  const history = useHistory();
   const onRoom = () => {
     onClickRoom(room);
     addMyChat(room);
+    history.push(`/chat/${room}`);
   };
   return (
     <li className='room ' onClick={onRoom}>
-      <Link to={`/chat?name=${username}&room=${room}`}>
-        <p>{room}</p>
-      </Link>
+      <p>{room}</p>
     </li>
   );
 };

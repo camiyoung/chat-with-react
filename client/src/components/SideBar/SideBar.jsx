@@ -26,18 +26,6 @@ const SideBar = ({
     history.push(`chat?name=${username}&room=${inputRef.current.value}`);
   };
 
-  const makeNweRoom = useCallback((title, username) => {
-    fetch(`http://localhost:8080/chat`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, title }),
-    }).then((res) => {
-      console.log('post');
-    });
-  }, []);
-
   const setActiveStatus = () => {
     setActiveForm(!activeForm);
   };

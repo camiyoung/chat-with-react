@@ -34,9 +34,17 @@ let Rooms = [
 ];
 
 export function getRooms() {
-  return Rooms;
+  let list = [];
+  Rooms.map((room) => {
+    list.push({ id: room.id, title: room.title });
+  });
+  return list;
 }
 
+export function getRoom(title) {
+  const room = Rooms.find((room) => room.title === title);
+  return room;
+}
 export async function getRoomById(id) {
   const filterd = Rooms.find((room) => room.id === id);
 

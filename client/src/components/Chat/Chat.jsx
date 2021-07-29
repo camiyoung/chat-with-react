@@ -4,29 +4,17 @@ import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
 import queryString from 'query-string';
 
-import HttpClient from '../../service/http';
-import ChatService from '../../service/chat';
+import { useHistory, useLocation } from 'react-router';
 
-const httpClient = new HttpClient('http://localhost:8080');
-const chatService = new ChatService(httpClient);
+const Chat = ({ chatService, username }) => {
+  const locationState = useLocation().state;
+  const [currentRoom, setCurrentRoom] = useState('list');
+  const [activedRooms, setActivedRooms] = useState([]);
 
-const Chat = ({ location }) => {
-  const [username, setUsername] = useState('');
-  const [currentRoom, setCurrentRoom] = useState();
-  const [activedRooms, setActivedRooms] = useState([
-    { title: 'room1' },
-    { title: 'room2' },
-    { title: 'room3' },
-  ]);
-  console.log(chatService.hello());
   const [myChatList, setMyChatList] = useState([]);
-  useEffect(() => {
-    const { name, room } = queryString.parse(location.search);
-    console.log(location);
-    setUsername(name);
-    setCurrentRoom(room);
-  }, [location.search]);
+  const history = useHistory();
 
+  console.log(`사용자명 ${username}`);
   useEffect(() => {
     chatService
       .getRoomList()
@@ -35,7 +23,16 @@ const Chat = ({ location }) => {
         console.log(data);
       })
       .catch((error) => console.log(error));
-  }, [location]);
+  }, []);
+
+  useEffect(() => {
+    chatService
+      .getMyRooms(username)
+      .then((data) => {
+        setMyChatList(data);
+      })
+      .catch((err) => console.error(err));
+  }, [username]);
 
   function onClickRoom(title) {
     setCurrentRoom(title);
@@ -43,6 +40,7 @@ const Chat = ({ location }) => {
 
   const onRoomListBtn = () => {
     setCurrentRoom('list');
+    history.push('/chat');
   };
 
   const onNewChatBtn = (title) => {
@@ -53,11 +51,10 @@ const Chat = ({ location }) => {
 
   const addMyChat = (title) => {
     console.log(title);
-    setMyChatList((myChatList) => {
-      const updated = [...myChatList, { title }];
-      console.log(updated);
-      return updated;
-    });
+    chatService
+      .joinRoom(username, title)
+      .then((data) => setMyChatList(data))
+      .catch((err) => console.err(err));
   };
 
   return (
