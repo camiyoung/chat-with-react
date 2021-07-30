@@ -8,7 +8,7 @@ const ChatRoom = ({ room }) => {
   return (
     <div className='chatRoom'>
       <Messages messages={messages} />
-      <UserList users={users} />)
+      <UserList users={users} />
     </div>
   );
 };

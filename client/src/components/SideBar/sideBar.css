@@ -1,5 +1,5 @@
 .sideBar {
-  background-color: rgb(6, 26, 48);
+  background-color: rgba(4, 130, 200, 1);
   width: 20%;
   display: flex;
   flex-direction: column;
@@ -21,6 +21,7 @@
   width: 100%;
   height: 10%;
   cursor: pointer;
+  background: rgba(4, 130, 200, 1);
 }
 
 .btn_roomlist {
@@ -38,5 +39,5 @@
 
 .btn_newchat:hover,
 .btn_roomlist:hover {
-  background-color: rgb(0, 115, 255);
+  background-color: rgba(45, 245, 253, 1) 100%;
 }

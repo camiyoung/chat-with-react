@@ -1,3 +1,4 @@
+import './join.css';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 const Join = ({ chatService, setUsername }) => {
@@ -12,21 +13,20 @@ const Join = ({ chatService, setUsername }) => {
   };
 
   return (
-    <div className='joinOuterContainer'>
-      <div className='joinInnerContainer'>
-        <h1 className='heading'>Join</h1>
-        <div>
+    <div className='join'>
+      <div className='join_container'>
+        <h1 className='heading'> Chat Service 💌 </h1>
+        <div className='form'>
           <input
-            placeholder='Name'
+            placeholder='Enter Username...'
             className='joinInput'
             type='text'
             onChange={(event) => setName(event.target.value)}
           />
+          <button className='join_button' type='submit' onClick={onSubmit}>
+            Sign In
+          </button>
         </div>
-
-        <button className={'button mt-20'} type='submit' onClick={onSubmit}>
-          Sign In
-        </button>
       </div>
     </div>
   );
