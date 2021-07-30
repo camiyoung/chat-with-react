@@ -30,11 +30,9 @@ export async function joinRoom(username, title) {
   user.rooms.map((room) => {
     if (room.title === title) existed = true;
   });
-  console.log(existed);
+
   if (!existed) user.rooms.push({ title });
 
-  console.log('room join');
-  console.log(user.rooms);
   return user.rooms;
 }
 

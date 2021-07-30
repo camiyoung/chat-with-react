@@ -23,7 +23,7 @@ const SideBar = ({
     onNewChatBtn(inputRef.current.value);
     onClickRoom(inputRef.current.value);
     chatService.postRoom(username, inputRef.current.value);
-    history.push(`chat?name=${username}&room=${inputRef.current.value}`);
+    history.push(`/chat/${inputRef.current.value}`);
   };
 
   const setActiveStatus = () => {

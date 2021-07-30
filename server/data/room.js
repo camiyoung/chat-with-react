@@ -34,11 +34,7 @@ let Rooms = [
 ];
 
 export function getRooms() {
-  let list = [];
-  Rooms.map((room) => {
-    list.push({ id: room.id, title: room.title });
-  });
-  return list;
+  return Rooms;
 }
 
 export function getRoom(title) {
@@ -51,6 +47,11 @@ export async function getRoomById(id) {
   return filterd;
 }
 
+export async function addUserToRoom(username, title) {
+  const room = Rooms.find((room) => room.title === title);
+  room && room.users.push(username);
+  return room;
+}
 export function createRoom(title, user) {
   Rooms = [
     ...Rooms,

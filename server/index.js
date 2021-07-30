@@ -3,6 +3,7 @@ import cors from 'cors';
 import * as roomRepository from './data/room.js';
 import * as userRepository from './data/users.js';
 import bodyParser from 'body-parser';
+import morgan from 'morgan';
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ app.use(cors({ origin: '*' }));
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan('tiny'));
 
 router.get('/', (req, res) => {
   res.sendStatus(200);
@@ -19,16 +21,14 @@ router.get('/', (req, res) => {
 
 router.get('/chat', (req, res) => {
   const rooms = roomRepository.getRooms();
-  rooms.map((room) => {
-    console.log('채팅 목록 불러오기');
-  });
+  rooms.map((room) => {});
   res.status(200).json(rooms);
 });
 
 router.get('/chat/:id', (req, res) => {
   const name = req.params.id;
   const joinedRooms = userRepository.roomsByUser(name);
-  console.log(joinedRooms);
+
   res.status(200).json(joinedRooms);
 });
 
@@ -42,7 +42,8 @@ router.post('/chat/:roomtitle', async (req, res) => {
   const user = req.body.username;
   const roomtitle = req.params.roomtitle;
   const result = await userRepository.joinRoom(user, roomtitle);
-
+  const room = await roomRepository.addUserToRoom(user, roomtitle);
+  console.log(room);
   res.status(201).json(result);
 });
 
@@ -55,7 +56,7 @@ router.post('/chat', (req, res) => {
 
 router.get('/users', (req, res) => {
   const users = userRepository.getUsers();
-  console.log(users);
+
   res.status(200).json(users);
 });
 

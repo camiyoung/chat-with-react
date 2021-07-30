@@ -7,11 +7,8 @@ const Join = ({ chatService, setUsername }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     setUsername(name);
-    chatService
-      .signup(name)
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-    history.push({ pathname: `/chat/${name}`, state: { username: name } });
+    chatService.signup(name).catch((error) => console.error(error));
+    history.push({ pathname: `/chat`, state: { username: name } });
   };
 
   return (

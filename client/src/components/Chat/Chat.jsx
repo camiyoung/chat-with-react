@@ -23,7 +23,7 @@ const Chat = ({ chatService, username }) => {
         console.log(data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [currentRoom]);
 
   useEffect(() => {
     chatService
@@ -54,7 +54,7 @@ const Chat = ({ chatService, username }) => {
     chatService
       .joinRoom(username, title)
       .then((data) => setMyChatList(data))
-      .catch((err) => console.err(err));
+      .catch((err) => console.error(err));
   };
 
   return (
