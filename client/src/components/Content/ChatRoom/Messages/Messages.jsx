@@ -13,7 +13,7 @@ const Messages = ({ messages }) => {
             </li>
           ))}
       </ul>
-      <InputForm />
+      <InputForm messages={messages} />
     </div>
   );
 };

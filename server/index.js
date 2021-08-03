@@ -1,70 +1,18 @@
 import express, { urlencoded } from 'express';
 import cors from 'cors';
-import * as roomRepository from './data/room.js';
-import * as userRepository from './data/users.js';
-import bodyParser from 'body-parser';
 import morgan from 'morgan';
-
-const router = express.Router();
+import { Server } from 'socket.io';
+import router from './router.js';
 
 const app = express();
+const server = app.listen(8080, () => console.log(`서버시작`));
+const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
 
 app.use(cors({ origin: '*' }));
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('tiny'));
-
-router.get('/', (req, res) => {
-  res.sendStatus(200);
-});
-
-router.get('/chat', (req, res) => {
-  const rooms = roomRepository.getRooms();
-  rooms.map((room) => {});
-  res.status(200).json(rooms);
-});
-
-router.get('/chat/:id', (req, res) => {
-  const name = req.params.id;
-  const joinedRooms = userRepository.roomsByUser(name);
-
-  res.status(200).json(joinedRooms);
-});
-
-router.get('/chat/:roomtitle', (req, res) => {
-  const title = req.params.roomtitle;
-  const room = roomRepository.getRoom(title);
-  res.status(200).json(room);
-});
-
-router.post('/chat/:roomtitle', async (req, res) => {
-  const user = req.body.username;
-  const roomtitle = req.params.roomtitle;
-  const result = await userRepository.joinRoom(user, roomtitle);
-  const room = await roomRepository.addUserToRoom(user, roomtitle);
-  console.log(room);
-  res.status(201).json(result);
-});
-
-router.post('/chat', (req, res) => {
-  const { title, username } = req.body;
-  const created = roomRepository.createRoom(title, username);
-  res.status(201).json(created);
-  console.log(`채팅방 생성 ${title}`);
-});
-
-router.get('/users', (req, res) => {
-  const users = userRepository.getUsers();
-
-  res.status(200).json(users);
-});
-
-router.post('/signup', (req, res) => {
-  const username = req.body.username;
-  userRepository.signUp(username);
-  res.status(201).json(username);
-});
 
 app.use(router);
 
@@ -73,4 +21,8 @@ app.use((error, req, res, next) => {
   res.sendStatus(500);
 });
 
-app.listen(8080, () => console.log(`서버시작`));
+io.on('connect', (socket) => {
+  socket.on('signin', (username) => {
+    console.log(`username = ${username}연결`);
+  });
+});

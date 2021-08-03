@@ -3,6 +3,7 @@ import Content from '../Content/Content';
 import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
 import queryString from 'query-string';
+import io from 'socket.io-client';
 
 import { useHistory, useLocation } from 'react-router';
 
@@ -10,10 +11,14 @@ const Chat = ({ chatService, username }) => {
   const locationState = useLocation().state;
   const [currentRoom, setCurrentRoom] = useState('list');
   const [activedRooms, setActivedRooms] = useState([]);
-
+  const [messages, setMessages] = useState([]);
   const [myChatList, setMyChatList] = useState([]);
   const history = useHistory();
-
+  const BASE_URL = 'http://localhost:8080/';
+  useEffect(() => {
+    const socket = io(BASE_URL);
+    socket.emit('signin', username);
+  }, [BASE_URL]);
   console.log(`사용자명 ${username}`);
   useEffect(() => {
     chatService

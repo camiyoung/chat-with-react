@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-const InputForm = (props) => {
+const InputForm = ({ messages }) => {
+  const textRef = useRef();
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(textRef.current.value);
+    messages.push({ message: textRef.current.value });
   };
   return (
     <form className='inputform' onSubmit={onSubmit}>
-      <input className='textInput' type='text' />
+      <input ref={textRef} className='textInput' type='text' />
     </form>
   );
 };
