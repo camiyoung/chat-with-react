@@ -30,6 +30,7 @@ const Chat = ({ chatService, username }) => {
     chatService
       .getRoomList()
       .then((data) => {
+        console.log(data);
         setActivedRooms(data);
       })
       .catch((error) => console.log(error));

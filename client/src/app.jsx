@@ -11,16 +11,16 @@ function App({ chatService }) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path='/'>
+        {/* <Route exact path='/'>
           {!username && (
             <Join
               chatService={chatService}
-              // setUsername={(name) => {
-              //   setUsername(name);
-              // }}
+              setUsername={(name) => {
+                setUsername(name);
+              }}
             />
           )}
-        </Route>
+        </Route> */}
 
         <Route path='/chat'>
           {username && <Chat chatService={chatService} username={username} />}

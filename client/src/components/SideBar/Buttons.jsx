@@ -9,7 +9,7 @@ const Buttons = ({ onRoomListBtn, setActiveStatus, username }) => {
         채팅방목록
       </div>
       <div className='btn_newchat' onClick={setActiveStatus}>
-        새 채팅 만들기
+        새 채팅
       </div>
     </div>
   );

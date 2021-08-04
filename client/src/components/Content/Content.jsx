@@ -19,17 +19,24 @@ const Content = ({
   // console.log(room);
   return (
     <div className='content'>
-      <Header currentRoom={currentRoom} />
-      {currentRoom === 'list' ? (
-        <RoomList
-          roomList={roomList}
-          onClickRoom={onClickRoom}
-          addMyChat={addMyChat}
-          username={user}
-        />
-      ) : (
-        <ChatRoom messages={messages} users={users} sendMessage={sendMessage} />
-      )}
+      <Header currentRoom={currentRoom} user={user} />
+      <div className='chatContainer'>
+        {currentRoom === 'list' ? (
+          <RoomList
+            roomList={roomList}
+            onClickRoom={onClickRoom}
+            addMyChat={addMyChat}
+            username={user}
+          />
+        ) : (
+          <ChatRoom
+            messages={messages}
+            user={user}
+            users={users}
+            sendMessage={sendMessage}
+          />
+        )}
+      </div>
     </div>
   );
 };

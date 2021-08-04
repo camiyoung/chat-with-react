@@ -2,16 +2,11 @@ import React from 'react';
 import InputForm from '../InputForm';
 import Message from './Message';
 
-const Messages = ({ messages, sendMessage }) => {
+const Messages = ({ messages, user, sendMessage }) => {
   console.log(messages);
   return (
     <ul className='messages'>
-      {messages &&
-        messages.map((msg) => (
-          <li className='message'>
-            <Message message={msg.message} />
-          </li>
-        ))}
+      {messages && messages.map((msg) => <Message user={user} message={msg} />)}
     </ul>
   );
 };
