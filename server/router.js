@@ -8,8 +8,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/chat', async (req, res) => {
-  const title = req.body.roomtitle;
-  console.log(`클릭방제:${title}`);
   const room = roomRepository.getRooms();
 
   res.status(200).json(room);

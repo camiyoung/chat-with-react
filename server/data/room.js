@@ -38,8 +38,6 @@ export function getRooms() {
 }
 
 export async function getRoom(title) {
-  console.log(title);
-
   const room = Rooms.find((room) => room.title === title);
   return room;
 }
