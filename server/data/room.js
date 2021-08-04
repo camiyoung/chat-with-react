@@ -32,6 +32,14 @@ let Rooms = [
     ],
   },
 ];
+export function setMessage(title, user, message) {
+  Rooms.forEach((room) => {
+    if (room.title === title) {
+      room.messages.push({ user, message });
+    }
+  });
+  return { user, message };
+}
 
 export function getRooms() {
   return Rooms;

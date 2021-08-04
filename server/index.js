@@ -3,7 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { Server } from 'socket.io';
 import router from './router.js';
-
+import * as roomRepository from './data/room.js';
 const app = express();
 const server = app.listen(8080, () => console.log(`서버시작`));
 const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
@@ -33,7 +33,8 @@ io.on('connect', (socket) => {
     });
 
     socket.on('sendMessage', (message) => {
-      console.log(message);
+      const result = roomRepository.setMessage(currentRoom, username, message);
+      console.log(result);
       io.to(currentRoom).emit('message', { user: username, message });
     });
   });
