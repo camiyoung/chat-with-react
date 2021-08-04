@@ -6,9 +6,16 @@ import Header from './Header';
 import RoomList from './RoomList/RoomList';
 import ChatRoom from './ChatRoom/ChatRoom';
 
-const Content = ({ currentRoom, roomList, onClickRoom, addMyChat, user }) => {
-  const room = roomList.find((room) => room.title === currentRoom);
-
+const Content = ({
+  currentRoom,
+  roomList,
+  onClickRoom,
+  addMyChat,
+  user,
+  sendMessage,
+  messages,
+  users,
+}) => {
   // console.log(room);
   return (
     <div className='content'>
@@ -21,7 +28,7 @@ const Content = ({ currentRoom, roomList, onClickRoom, addMyChat, user }) => {
           username={user}
         />
       ) : (
-        <ChatRoom room={room ? room : ''} />
+        <ChatRoom messages={messages} users={users} sendMessage={sendMessage} />
       )}
     </div>
   );

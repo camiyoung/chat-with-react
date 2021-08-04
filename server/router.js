@@ -7,23 +7,19 @@ router.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
-router.get('/chat', (req, res) => {
-  const rooms = roomRepository.getRooms();
-  rooms.map((room) => {});
-  res.status(200).json(rooms);
+router.get('/chat', async (req, res) => {
+  const title = req.body.roomtitle;
+  console.log(`클릭방제:${title}`);
+  const room = roomRepository.getRooms();
+
+  res.status(200).json(room);
 });
 
-router.get('/chat/:id', (req, res) => {
+router.get('/user/:id', (req, res) => {
   const name = req.params.id;
   const joinedRooms = userRepository.roomsByUser(name);
 
   res.status(200).json(joinedRooms);
-});
-
-router.get('/chat/:roomtitle', (req, res) => {
-  const title = req.params.roomtitle;
-  const room = roomRepository.getRoom(title);
-  res.status(200).json(room);
 });
 
 router.post('/chat/:roomtitle', async (req, res) => {
@@ -31,8 +27,16 @@ router.post('/chat/:roomtitle', async (req, res) => {
   const roomtitle = req.params.roomtitle;
   const result = await userRepository.joinRoom(user, roomtitle);
   const room = await roomRepository.addUserToRoom(user, roomtitle);
-  console.log(room);
+
   res.status(201).json(result);
+});
+router.get('/chat/:roomtitle', async (req, res) => {
+  console.log(req.params.roomtitle);
+  const roomtitle = req.params.roomtitle;
+  console.log(roomtitle);
+  const room = await roomRepository.getRoom(roomtitle);
+  console.log('dsfsdf');
+  res.status(201).json(room);
 });
 
 router.post('/chat', (req, res) => {

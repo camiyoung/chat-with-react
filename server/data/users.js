@@ -27,9 +27,10 @@ export async function joinRoom(username, title) {
   console.log(title);
   const user = await getUser(username);
   let existed = false;
-  user.rooms.map((room) => {
-    if (room.title === title) existed = true;
-  });
+  user.rooms &&
+    user.rooms.map((room) => {
+      if (room.title === title) existed = true;
+    });
 
   if (!existed) user.rooms.push({ title });
 
@@ -37,7 +38,13 @@ export async function joinRoom(username, title) {
 }
 
 export function roomsByUser(username) {
-  const myRoomList = users.find((user) => user.username === username).rooms;
+  let myRoomList;
+  if (users) {
+    const user = users.find((user) => user.username === username);
+    if (user && user.rooms) {
+      myRoomList = user.rooms;
+    }
+  }
 
   return myRoomList;
 }

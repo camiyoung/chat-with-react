@@ -6,7 +6,7 @@ import Chat from './components/Chat/Chat';
 import { useState } from 'react';
 
 function App({ chatService }) {
-  const [username, setUsername] = useState();
+  const username = 'jiyoung';
 
   return (
     <BrowserRouter>
@@ -15,9 +15,9 @@ function App({ chatService }) {
           {!username && (
             <Join
               chatService={chatService}
-              setUsername={(name) => {
-                setUsername(name);
-              }}
+              // setUsername={(name) => {
+              //   setUsername(name);
+              // }}
             />
           )}
         </Route>

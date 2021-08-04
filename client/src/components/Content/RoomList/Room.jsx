@@ -5,8 +5,6 @@ const Room = ({ room, onClickRoom, addMyChat, username }) => {
   const history = useHistory();
   const onRoom = () => {
     onClickRoom(room);
-    addMyChat(room);
-    history.push(`/chat/${room}`);
   };
   return (
     <li className='room ' onClick={onRoom}>

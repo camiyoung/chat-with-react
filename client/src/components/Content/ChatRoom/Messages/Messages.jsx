@@ -2,7 +2,8 @@ import React from 'react';
 import InputForm from '../InputForm';
 import Message from './Message';
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, sendMessage }) => {
+  console.log(messages);
   return (
     <div className='chatArea'>
       <ul className='messages'>
@@ -13,7 +14,7 @@ const Messages = ({ messages }) => {
             </li>
           ))}
       </ul>
-      <InputForm messages={messages} />
+      <InputForm messages={messages} sendMessage={sendMessage} />
     </div>
   );
 };

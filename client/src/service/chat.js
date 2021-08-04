@@ -17,7 +17,7 @@ export default class ChatService {
   }
 
   async getMyRooms(username) {
-    return this.http.fetch(`/chat/${username}`, {
+    return this.http.fetch(`/user/${username}`, {
       method: 'GET',
     });
   }
@@ -33,6 +33,13 @@ export default class ChatService {
     return this.http.fetch(`/chat/${title}`, {
       method: 'POST',
       body: JSON.stringify({ username }),
+    });
+  }
+
+  async getRoom(title) {
+    console.log(`title:${title} at chat.js`);
+    return this.http.fetch(`/chat/${title}`, {
+      method: 'GET',
     });
   }
 }

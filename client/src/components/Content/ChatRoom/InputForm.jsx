@@ -1,14 +1,16 @@
 import React, { useRef } from 'react';
 
-const InputForm = ({ messages }) => {
+const InputForm = ({ messages, sendMessage }) => {
   const textRef = useRef();
+  const formRef = useRef();
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(textRef.current.value);
-    messages.push({ message: textRef.current.value });
+    sendMessage(textRef.current.value);
+    formRef.current.reset();
   };
   return (
-    <form className='inputform' onSubmit={onSubmit}>
+    <form ref={formRef} className='inputform' onSubmit={onSubmit}>
       <input ref={textRef} className='textInput' type='text' />
     </form>
   );

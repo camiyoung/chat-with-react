@@ -22,7 +22,17 @@ app.use((error, req, res, next) => {
 });
 
 io.on('connect', (socket) => {
-  socket.on('signin', (username) => {
+  socket.on('signin', ({ username }) => {
     console.log(`username = ${username}연결`);
+
+    socket.on('join', ({ room }) => {
+      console.log(`${username} 입장 to room :${room}`);
+      socket.join(room);
+
+      socket.on('sendMessage', (message) => {
+        console.log(message);
+        io.to(room).emit('message', { user: username, message });
+      });
+    });
   });
 });

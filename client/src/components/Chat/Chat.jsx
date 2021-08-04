@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Content from '../Content/Content';
 import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
@@ -7,25 +7,30 @@ import io from 'socket.io-client';
 
 import { useHistory, useLocation } from 'react-router';
 
+let socket;
 const Chat = ({ chatService, username }) => {
-  const locationState = useLocation().state;
   const [currentRoom, setCurrentRoom] = useState('list');
   const [activedRooms, setActivedRooms] = useState([]);
+
   const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState('');
+  const [users, setUsers] = useState();
   const [myChatList, setMyChatList] = useState([]);
+
   const history = useHistory();
   const BASE_URL = 'http://localhost:8080/';
+
   useEffect(() => {
-    const socket = io(BASE_URL);
-    socket.emit('signin', username);
+    socket = io(BASE_URL);
+
+    socket.emit('signin', { username });
   }, [BASE_URL]);
-  console.log(`사용자명 ${username}`);
+
   useEffect(() => {
     chatService
       .getRoomList()
       .then((data) => {
         setActivedRooms(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   }, [currentRoom]);
@@ -39,8 +44,32 @@ const Chat = ({ chatService, username }) => {
       .catch((err) => console.error(err));
   }, [username]);
 
-  function onClickRoom(title) {
+  useEffect(() => {
+    chatService
+      .getRoom(currentRoom)
+      .then((data) => {
+        console.log(data);
+        setMessages(data.messages);
+        setUsers(data.users);
+      })
+      .catch((error) => console.error(error));
+  }, [currentRoom]);
+
+  const sendMessage = useCallback((message) => {
+    if (message) {
+      console.log(`전송메세지 ${message}`);
+      socket.emit('sendMessage', message);
+    }
+  }, []);
+
+  async function onClickRoom(title) {
     setCurrentRoom(title);
+
+    addMyChat(title);
+
+    history.push(`/chat/${title}`);
+
+    socket.emit('join', { room: title });
   }
 
   const onRoomListBtn = () => {
@@ -54,8 +83,12 @@ const Chat = ({ chatService, username }) => {
     });
   };
 
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
+    });
+  }, []);
   const addMyChat = (title) => {
-    console.log(title);
     chatService
       .joinRoom(username, title)
       .then((data) => setMyChatList(data))
@@ -80,6 +113,9 @@ const Chat = ({ chatService, username }) => {
         onClickRoom={onClickRoom}
         addMyChat={addMyChat}
         user={username}
+        sendMessage={sendMessage}
+        messages={messages}
+        users={users}
       />
     </div>
   );
