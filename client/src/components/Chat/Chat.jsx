@@ -64,13 +64,19 @@ const Chat = ({ chatService, username }) => {
   }, []);
 
   async function onClickRoom(title) {
+    let alreadyIn = false;
     setCurrentRoom(title);
 
-    addMyChat(title);
+    myChatList.forEach((chatroom) => {
+      if (chatroom.title === title) alreadyIn = true;
+    });
+
+    if (!alreadyIn) {
+      addMyChat(title);
+      socket.emit('join', { room: title });
+    }
 
     history.push(`/chat/${title}`);
-
-    socket.emit('join', { room: title });
   }
 
   const onRoomListBtn = () => {
