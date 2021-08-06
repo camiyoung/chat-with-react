@@ -29,11 +29,10 @@ router.post('/chat/:roomtitle', async (req, res) => {
   res.status(201).json(result);
 });
 router.get('/chat/:roomtitle', async (req, res) => {
-  console.log(req.params.roomtitle);
   const roomtitle = req.params.roomtitle;
-  console.log(roomtitle);
+
   const room = await roomRepository.getRoom(roomtitle);
-  console.log('dsfsdf');
+
   res.status(201).json(room);
 });
 

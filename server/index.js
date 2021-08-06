@@ -12,7 +12,7 @@ app.use(cors({ origin: '*' }));
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan('tiny'));
+// app.use(morgan('tiny'));
 
 app.use(router);
 
@@ -24,12 +24,23 @@ app.use((error, req, res, next) => {
 io.on('connect', (socket) => {
   let currentRoom;
   socket.on('signin', ({ username }) => {
-    console.log(`username = ${username}연결`);
+    console.log(`@@ 사용자 연결 : ${username} (${socket.id})`);
 
-    socket.on('join', ({ room }) => {
-      console.log(`${username} 입장 to room :${room}`);
+    socket.on('join', async ({ room }) => {
+      console.log(`@@ 채팅방 입장 (${username} )to( ${room} )`);
       currentRoom = room;
-      socket.join(room);
+      socket.join(currentRoom);
+      console.log(socket.rooms);
+      socket.broadcast.emit('message', {
+        user: 'admin',
+        message: `${username}님이 입장하셨습니다.`,
+      });
+      roomRepository.addUserToRoom(username, currentRoom);
+      const currentRoomData = await roomRepository.getRoom(currentRoom);
+      const userList = currentRoomData.users;
+
+      console.log(userList);
+      io.emit('user list', userList);
     });
 
     socket.on('sendMessage', (message) => {

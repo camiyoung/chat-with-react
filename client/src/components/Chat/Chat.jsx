@@ -56,6 +56,12 @@ const Chat = ({ chatService, username }) => {
       .catch((error) => console.error(error));
   }, [currentRoom]);
 
+  useEffect(() => {
+    socket.on('user list', (userList) => {
+      console.log('userlist ->' + userList);
+      setUsers(userList);
+    });
+  }, []);
   const sendMessage = useCallback((message) => {
     if (message) {
       console.log(`전송메세지 ${message}`);

@@ -103,6 +103,11 @@
   background-color: rgba(4, 130, 200, 1);
   color: white;
 }
+
+.text.admin {
+  text-align: center;
+  background-color: rgb(211, 240, 255);
+}
 .sender {
   padding-left: 0.3em;
   color: rgb(94, 90, 90);

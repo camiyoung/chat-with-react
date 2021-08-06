@@ -1,6 +1,4 @@
-let users = [
-  { username: 'jiyoung', rooms: [{ title: 'room1' }, { title: 'room3' }] },
-];
+let users = [{ username: 'jiyoung', rooms: [] }];
 
 async function getUser(username) {
   const finduser = users.find((user) => user.username === username);
@@ -24,7 +22,6 @@ export function signUp(username) {
 }
 
 export async function joinRoom(username, title) {
-  console.log(title);
   const user = await getUser(username);
   let existed = false;
   user.rooms &&

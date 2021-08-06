@@ -2,7 +2,7 @@ let Rooms = [
   {
     id: 1,
     title: 'room1',
-    users: ['jiyoung', 'hye', 'coco'],
+    users: ['coco', 'user33'],
     messages: [
       { user: 'jiyoung', message: 'hello' },
       { user: 'hye', message: 'wow hello' },
@@ -12,7 +12,7 @@ let Rooms = [
   {
     id: 2,
     title: 'room2',
-    users: ['jiyoung', 'coco'],
+    users: [],
     messages: [
       { user: 'jiyoung', message: 'hello' },
 
@@ -25,7 +25,7 @@ let Rooms = [
   {
     id: 3,
     title: 'room3',
-    users: ['hye', 'coco'],
+    users: [],
     messages: [
       { user: 'hye', message: 'wow hello' },
       { user: 'coco', message: 'chat room 3' },
@@ -56,9 +56,13 @@ export async function getRoomById(id) {
 }
 
 export async function addUserToRoom(username, title) {
+  let alreadyIn = false;
   const room = Rooms.find((room) => room.title === title);
-  room && room.users.push(username);
-  return room;
+  room &&
+    room.users.forEach((user) => {
+      if (user === username) alreadyIn = true;
+    });
+  if (!alreadyIn) room.users.push(username);
 }
 export function createRoom(title, user) {
   Rooms = [
