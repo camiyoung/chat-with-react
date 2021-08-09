@@ -31,10 +31,11 @@ io.on('connect', (socket) => {
       currentRoom = room;
       socket.join(currentRoom);
       console.log(socket.rooms);
-      socket.broadcast.emit('message', {
+      io.in(room).emit('message', {
         user: 'admin',
         message: `${username}님이 입장하셨습니다.`,
       });
+
       roomRepository.addUserToRoom(username, currentRoom);
       const currentRoomData = await roomRepository.getRoom(currentRoom);
       const userList = currentRoomData.users;
