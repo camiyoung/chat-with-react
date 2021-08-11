@@ -58,13 +58,14 @@ export async function getRoomById(id) {
 export async function addUserToRoom(username, title) {
   let alreadyIn = false;
   const room = Rooms.find((room) => room.title === title);
-  room &&
+  if (room) {
     room.users.forEach((user) => {
       if (user === username) alreadyIn = true;
     });
-  if (!alreadyIn) room.users.push(username);
+    if (!alreadyIn) room.users.push(username);
+  }
 }
-export function createRoom(title, user) {
+export async function createRoom(title, user) {
   Rooms = [
     ...Rooms,
     {

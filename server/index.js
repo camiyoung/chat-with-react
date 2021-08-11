@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
       currentRoom = room;
       socket.join(currentRoom);
       console.log(socket.rooms);
-      io.in(room).emit('message', {
+      io.to(room).emit('message', currentRoom, {
         user: 'admin',
         message: `${username}님이 입장하셨습니다.`,
       });
@@ -40,14 +40,26 @@ io.on('connect', (socket) => {
       const currentRoomData = await roomRepository.getRoom(currentRoom);
       const userList = currentRoomData.users;
 
-      console.log(userList);
       io.emit('user list', userList);
     });
 
-    socket.on('sendMessage', (message) => {
-      const result = roomRepository.setMessage(currentRoom, username, message);
+    socket.on('current room', (room) => {
+      console.log(`current room = ${room}`);
+      currentRoom = room;
+    });
+
+    socket.on('sendMessage', (message, sentRoom) => {
+      const result = roomRepository.setMessage(sentRoom, username, message);
       console.log(result);
-      io.to(currentRoom).emit('message', { user: username, message });
+
+      if (currentRoom === sentRoom) {
+        io.to(sentRoom).emit('message', sentRoom, {
+          user: username,
+          message,
+        });
+      } else {
+        console.log(`${sentRoom}에서 메세지를 전송했슴당`);
+      }
     });
   });
 });

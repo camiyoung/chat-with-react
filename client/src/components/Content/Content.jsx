@@ -34,6 +34,7 @@ const Content = ({
             user={user}
             users={users}
             sendMessage={sendMessage}
+            room={currentRoom}
           />
         )}
       </div>

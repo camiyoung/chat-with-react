@@ -7,7 +7,7 @@ const ChatRoom = ({ room, messages, user, users, sendMessage }) => {
     <div className='chatRoom'>
       <div className='chatArea'>
         <Messages messages={messages} user={user} />
-        <InputForm sendMessage={sendMessage} />
+        <InputForm sendMessage={sendMessage} room={room} />
       </div>
 
       <UserList users={users} />

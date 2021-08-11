@@ -36,9 +36,9 @@ router.get('/chat/:roomtitle', async (req, res) => {
   res.status(201).json(room);
 });
 
-router.post('/chat', (req, res) => {
+router.post('/chat', async (req, res) => {
   const { title, username } = req.body;
-  const created = roomRepository.createRoom(title, username);
+  const created = await roomRepository.createRoom(title, username);
   res.status(201).json(created);
   console.log(`채팅방 생성 ${title}`);
 });

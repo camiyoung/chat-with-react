@@ -55,17 +55,19 @@ const Chat = ({ chatService, username }) => {
       })
       .catch((error) => console.error(error));
   }, [currentRoom]);
-
+  useEffect(() => {
+    socket.emit('current room', currentRoom);
+  }, [currentRoom]);
   useEffect(() => {
     socket.on('user list', (userList) => {
       console.log('userlist ->' + userList);
       setUsers(userList);
     });
   }, []);
-  const sendMessage = useCallback((message) => {
+  const sendMessage = useCallback((message, sentRoom) => {
     if (message) {
       console.log(`전송메세지 ${message}`);
-      socket.emit('sendMessage', message);
+      socket.emit('sendMessage', message, sentRoom);
     }
   }, []);
 
@@ -97,7 +99,10 @@ const Chat = ({ chatService, username }) => {
   };
 
   useEffect(() => {
-    socket.on('message', (message) => {
+    socket.on('message', (room, message) => {
+      console.log('현재 방:' + currentRoom + '메세지 발송한방: ' + room);
+      console.log(currentRoom === room);
+
       setMessages((messages) => [...messages, message]);
     });
   }, []);
