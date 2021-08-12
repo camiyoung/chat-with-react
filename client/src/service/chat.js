@@ -30,7 +30,7 @@ export default class ChatService {
   }
 
   async joinRoom(username, title) {
-    return this.http.fetch(`/chat/${title}`, {
+    return this.http.fetch(`/user/${title}`, {
       method: 'POST',
       body: JSON.stringify({ username }),
     });

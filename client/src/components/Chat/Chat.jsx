@@ -40,17 +40,28 @@ const Chat = ({ chatService, username }) => {
     chatService
       .getMyRooms(username)
       .then((data) => {
-        setMyChatList(data);
+        console.log(data);
+
+        setMyChatList(data.rooms);
       })
       .catch((err) => console.error(err));
-  }, [username]);
+  }, [currentRoom]);
+
+  useEffect(() => {
+    myChatList.forEach((room) => {
+      if (room.title === currentRoom) {
+        setMessages(room.messages);
+        console.log(messages);
+      }
+    });
+  }, [currentRoom]);
 
   useEffect(() => {
     chatService
       .getRoom(currentRoom)
       .then((data) => {
         console.log(data);
-        setMessages(data.messages);
+
         setUsers(data.users);
       })
       .catch((error) => console.error(error));
@@ -67,7 +78,7 @@ const Chat = ({ chatService, username }) => {
   const sendMessage = useCallback((message, sentRoom) => {
     if (message) {
       console.log(`전송메세지 ${message}`);
-      socket.emit('sendMessage', message, sentRoom);
+      socket.emit('sendMessage', message, sentRoom, username);
     }
   }, []);
 

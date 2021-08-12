@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import { Server } from 'socket.io';
 import router from './router.js';
 import * as roomRepository from './data/room.js';
+import * as userRepository from './data/users.js';
 const app = express();
 const server = app.listen(8080, () => console.log(`서버시작`));
 const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
@@ -48,18 +49,21 @@ io.on('connect', (socket) => {
       currentRoom = room;
     });
 
-    socket.on('sendMessage', (message, sentRoom) => {
-      const result = roomRepository.setMessage(sentRoom, username, message);
+    socket.on('sendMessage', (message, sentRoom, sender) => {
+      const result = userRepository.addMessage(username, sentRoom, {
+        sender,
+        message,
+      });
       console.log(result);
-
-      if (currentRoom === sentRoom) {
-        io.to(sentRoom).emit('message', sentRoom, {
-          user: username,
-          message,
-        });
-      } else {
-        console.log(`${sentRoom}에서 메세지를 전송했슴당`);
-      }
+      socket.emit('message', currentRoom, { sender, message });
+      // if (currentRoom === sentRoom) {
+      //   io.to(sentRoom).emit('message', sentRoom, {
+      //     user: username,
+      //     message,
+      //   });
+      // } else {
+      //   console.log(`${sentRoom}에서 메세지를 전송했슴당`);
+      // }
     });
   });
 });

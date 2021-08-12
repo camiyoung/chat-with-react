@@ -2,12 +2,12 @@ let users = [
   {
     username: 'jiyoung',
     rooms: [
-      { title: 'room1', messages: [{ sender: 'user1', text: 'hello' }] },
+      { title: 'room1', messages: [{ sender: 'user1', message: 'hello' }] },
       {
-        title: 'room2',
+        title: 'room3',
         messages: [
-          { sender: 'user1', text: 'hello' },
-          { sender: 'user2', text: 'yeah' },
+          { sender: 'user1', message: 'hello' },
+          { sender: 'user2', message: 'yeah' },
         ],
       },
     ],
@@ -45,4 +45,18 @@ export function roomsByUser(username) {
   }
 
   return myRoomList;
+}
+
+export function addMessage(username, title, message) {
+  users.forEach((user) => {
+    if (user.username === username) {
+      user.rooms.forEach((room) => {
+        if (room.title === title) {
+          room.messages.push(message);
+        }
+      });
+    }
+  });
+
+  return message;
 }
