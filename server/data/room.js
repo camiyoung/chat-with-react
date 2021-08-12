@@ -1,35 +1,11 @@
 let Rooms = [
   {
-    id: 1,
     title: 'room1',
-    users: ['coco', 'user33'],
-    messages: [
-      { user: 'jiyoung', message: 'hello' },
-      { user: 'hye', message: 'wow hello' },
-      { user: 'coco', message: 'chat room 1' },
-    ],
+    users: ['jiyoung', 'user1'],
   },
   {
-    id: 2,
-    title: 'room2',
-    users: [],
-    messages: [
-      { user: 'jiyoung', message: 'hello' },
-
-      { user: 'coco', message: 'chat room 1' },
-      { user: 'jiyoung', message: 'room1?' },
-
-      { user: 'coco', message: 'no room2 sorry' },
-    ],
-  },
-  {
-    id: 3,
     title: 'room3',
-    users: [],
-    messages: [
-      { user: 'hye', message: 'wow hello' },
-      { user: 'coco', message: 'chat room 3' },
-    ],
+    users: ['user1'],
   },
 ];
 export function setMessage(title, user, message) {
@@ -69,10 +45,8 @@ export async function createRoom(title, user) {
   Rooms = [
     ...Rooms,
     {
-      id: Date.now(),
       title,
       users: [user],
-      messages: [],
     },
   ];
   return Rooms;

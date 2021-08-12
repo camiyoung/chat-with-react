@@ -7,27 +7,22 @@ router.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
+//GET 개설된 채팅방 리스트 불러오기
 router.get('/chat', async (req, res) => {
   const room = roomRepository.getRooms();
 
   res.status(200).json(room);
 });
 
-router.get('/user/:id', (req, res) => {
+//GET 사용자가 참여중인 방 목록 불러오기
+router.get('/user/:id', async (req, res) => {
   const name = req.params.id;
-  const joinedRooms = userRepository.roomsByUser(name);
+  const user = await userRepository.getUser(name);
 
-  res.status(200).json(joinedRooms);
+  res.status(200).json(user);
 });
 
-router.post('/chat/:roomtitle', async (req, res) => {
-  const user = req.body.username;
-  const roomtitle = req.params.roomtitle;
-  const result = await userRepository.joinRoom(user, roomtitle);
-  const room = await roomRepository.addUserToRoom(user, roomtitle);
-
-  res.status(201).json(result);
-});
+//GET 채팅방의 정보 불러오기
 router.get('/chat/:roomtitle', async (req, res) => {
   const roomtitle = req.params.roomtitle;
 
@@ -36,6 +31,13 @@ router.get('/chat/:roomtitle', async (req, res) => {
   res.status(201).json(room);
 });
 
+//GET 가입된 모든 유저 정보
+router.get('/user', (req, res) => {
+  const users = userRepository.getUsers();
+  res.status(200).json(users);
+});
+
+//POST 새로운 채팅방 생성
 router.post('/chat', async (req, res) => {
   const { title, username } = req.body;
   const created = await roomRepository.createRoom(title, username);
@@ -43,12 +45,17 @@ router.post('/chat', async (req, res) => {
   console.log(`채팅방 생성 ${title}`);
 });
 
-router.get('/users', (req, res) => {
-  const users = userRepository.getUsers();
+//POST 사용자가 개설된 방에 참여
+router.post('/user/:roomtitle', async (req, res) => {
+  const user = req.body.username;
+  const roomtitle = req.params.roomtitle;
+  const result = await userRepository.joinRoom(user, roomtitle);
+  const room = await roomRepository.addUserToRoom(user, roomtitle);
 
-  res.status(200).json(users);
+  res.status(201).json(result);
 });
 
+// POST 새로운 유저 가입
 router.post('/signup', (req, res) => {
   const username = req.body.username;
   userRepository.signUp(username);

@@ -1,6 +1,20 @@
-let users = [{ username: 'jiyoung', rooms: [] }];
+let users = [
+  {
+    username: 'jiyoung',
+    rooms: [
+      { title: 'room1', messages: [{ sender: 'user1', text: 'hello' }] },
+      {
+        title: 'room2',
+        messages: [
+          { sender: 'user1', text: 'hello' },
+          { sender: 'user2', text: 'yeah' },
+        ],
+      },
+    ],
+  },
+];
 
-async function getUser(username) {
+export async function getUser(username) {
   const finduser = users.find((user) => user.username === username);
   return finduser;
 }
@@ -9,12 +23,7 @@ export function getUsers() {
 }
 
 export function signUp(username) {
-  let exsitedUser = false;
-  users.map((user) => {
-    if (user.username === username) {
-      exsitedUser = true;
-    }
-  });
+  const exsitedUser = users.find((user) => user.username === username);
 
   if (!exsitedUser) {
     users.push({ username, rooms: [] });
@@ -23,15 +32,7 @@ export function signUp(username) {
 
 export async function joinRoom(username, title) {
   const user = await getUser(username);
-  let existed = false;
-  user.rooms &&
-    user.rooms.map((room) => {
-      if (room.title === title) existed = true;
-    });
-
-  if (!existed) user.rooms.push({ title });
-
-  return user.rooms;
+  user.rooms.push({ title, message: [] });
 }
 
 export function roomsByUser(username) {
