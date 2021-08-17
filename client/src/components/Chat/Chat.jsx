@@ -117,12 +117,12 @@ const Chat = ({ chatService, username }) => {
       setMessages((messages) => [...messages, message]);
     });
   }, []);
-  const addMyChat = (title) => {
+  async function addMyChat(title) {
     chatService
       .joinRoom(username, title)
       .then((data) => setMyChatList(data))
       .catch((err) => console.error(err));
-  };
+  }
 
   return (
     <div className='app'>

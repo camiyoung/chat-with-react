@@ -49,13 +49,22 @@ io.on('connect', (socket) => {
       currentRoom = room;
     });
 
-    socket.on('sendMessage', (message, sentRoom, sender) => {
-      const result = userRepository.addMessage(username, sentRoom, {
+    socket.on('sendMessage', async (message, sentRoom, sender) => {
+      const result = await userRepository.addMessage(username, sentRoom, {
         sender,
         message,
       });
+
+      const room = await roomRepository.getRoom(sentRoom);
+      const usersInRoom = room.users;
+      usersInRoom.forEach((user) => {
+        if (user !== username) {
+          userRepository.addMessage(user, sentRoom, { sender, message });
+        }
+      });
       console.log(result);
       socket.emit('message', currentRoom, { sender, message });
+      socket.broadcast.emit('message', currentRoom, { sender, message });
       // if (currentRoom === sentRoom) {
       //   io.to(sentRoom).emit('message', sentRoom, {
       //     user: username,

@@ -5,7 +5,7 @@ let Rooms = [
   },
   {
     title: 'room3',
-    users: ['user1'],
+    users: ['jiyoung', 'user2'],
   },
 ];
 export function setMessage(title, user, message) {

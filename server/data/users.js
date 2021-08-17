@@ -12,6 +12,19 @@ let users = [
       },
     ],
   },
+  {
+    username: 'user2',
+    rooms: [
+      { title: 'room1', messages: [{ sender: 'user1', message: 'hello' }] },
+      {
+        title: 'room3',
+        messages: [
+          { sender: 'user1', message: 'hello' },
+          { sender: 'user2', message: 'yeah' },
+        ],
+      },
+    ],
+  },
 ];
 
 export async function getUser(username) {
@@ -32,7 +45,7 @@ export function signUp(username) {
 
 export async function joinRoom(username, title) {
   const user = await getUser(username);
-  user.rooms.push({ title, message: [] });
+  user.rooms.push({ title, messages: [] });
 }
 
 export function roomsByUser(username) {
@@ -47,7 +60,7 @@ export function roomsByUser(username) {
   return myRoomList;
 }
 
-export function addMessage(username, title, message) {
+export async function addMessage(username, title, message) {
   users.forEach((user) => {
     if (user.username === username) {
       user.rooms.forEach((room) => {
