@@ -2,7 +2,6 @@ import React from 'react';
 import MyChat from './MyChat';
 
 const MyChatList = ({ roomList, onClickRoom, addMyChat, username }) => {
-  console.log(roomList);
   return (
     <ul className='myChatRoomList'>
       {roomList &&

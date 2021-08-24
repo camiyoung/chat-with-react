@@ -32,20 +32,23 @@ io.on('connect', (socket) => {
       currentRoom = room;
       socket.join(currentRoom);
       console.log(socket.rooms);
-      io.to(room).emit('message', currentRoom, {
+      socket.to(room).emit('message', currentRoom, {
         user: 'admin',
         message: `${username}님이 입장하셨습니다.`,
       });
 
       roomRepository.addUserToRoom(username, currentRoom);
       const currentRoomData = await roomRepository.getRoom(currentRoom);
-      const userList = currentRoomData.users;
+      let userList;
+      if (currentRoomData) {
+        userList = currentRoomData.users;
+      }
 
-      io.emit('user list', userList);
+      io.to(room).emit('user list', userList, currentRoom);
     });
 
     socket.on('current room', (room) => {
-      console.log(`current room = ${room}`);
+      console.log(`${username}의 current room = ${room}`);
       currentRoom = room;
     });
 
@@ -54,7 +57,7 @@ io.on('connect', (socket) => {
         sender,
         message,
       });
-
+      console.log(result);
       const room = await roomRepository.getRoom(sentRoom);
       const usersInRoom = room.users;
       usersInRoom.forEach((user) => {
@@ -62,17 +65,9 @@ io.on('connect', (socket) => {
           userRepository.addMessage(user, sentRoom, { sender, message });
         }
       });
-      console.log(result);
+
       socket.emit('message', currentRoom, { sender, message });
       socket.broadcast.emit('message', currentRoom, { sender, message });
-      // if (currentRoom === sentRoom) {
-      //   io.to(sentRoom).emit('message', sentRoom, {
-      //     user: username,
-      //     message,
-      //   });
-      // } else {
-      //   console.log(`${sentRoom}에서 메세지를 전송했슴당`);
-      // }
     });
   });
 });

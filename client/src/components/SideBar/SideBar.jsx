@@ -19,11 +19,13 @@ const SideBar = ({
   const onSubmit = (e) => {
     e.preventDefault();
     setActiveForm(false);
-    addMyChat(inputRef.current.value);
+
     onNewChatBtn(inputRef.current.value);
     onClickRoom(inputRef.current.value);
     chatService.postRoom(username, inputRef.current.value);
     history.push(`/chat/${inputRef.current.value}`);
+
+    addMyChat(inputRef.current.value);
   };
 
   const onClose = (e) => {

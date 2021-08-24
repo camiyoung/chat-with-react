@@ -37,7 +37,6 @@ export default class ChatService {
   }
 
   async getRoom(title) {
-    console.log(`title:${title} at chat.js`);
     return this.http.fetch(`/chat/${title}`, {
       method: 'GET',
     });

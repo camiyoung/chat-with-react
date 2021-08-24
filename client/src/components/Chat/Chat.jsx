@@ -30,7 +30,6 @@ const Chat = ({ chatService, username }) => {
     chatService
       .getRoomList()
       .then((data) => {
-        console.log(data);
         setActivedRooms(data);
       })
       .catch((error) => console.log(error));
@@ -40,28 +39,25 @@ const Chat = ({ chatService, username }) => {
     chatService
       .getMyRooms(username)
       .then((data) => {
-        console.log(data);
-
         setMyChatList(data.rooms);
       })
       .catch((err) => console.error(err));
   }, [currentRoom]);
 
   useEffect(() => {
-    myChatList.forEach((room) => {
-      if (room.title === currentRoom) {
-        setMessages(room.messages);
-        console.log(messages);
-      }
-    });
+    if (myChatList) {
+      myChatList.forEach((room) => {
+        if (room.title === currentRoom) {
+          setMessages(room.messages);
+        }
+      });
+    }
   }, [currentRoom]);
 
   useEffect(() => {
     chatService
       .getRoom(currentRoom)
       .then((data) => {
-        console.log(data);
-
         setUsers(data.users);
       })
       .catch((error) => console.error(error));
@@ -70,22 +66,26 @@ const Chat = ({ chatService, username }) => {
     socket.emit('current room', currentRoom);
   }, [currentRoom]);
   useEffect(() => {
-    socket.on('user list', (userList) => {
+    socket.on('user list', (userList, room) => {
       console.log('userlist ->' + userList);
-      setUsers(userList);
+      console.log(room, currentRoom);
+      if (currentRoom === room) {
+        setUsers(userList);
+      }
     });
-  }, []);
+  }, [currentRoom]);
   const sendMessage = useCallback((message, sentRoom) => {
     if (message) {
-      console.log(`전송메세지 ${message}`);
       socket.emit('sendMessage', message, sentRoom, username);
     }
   }, []);
 
-  async function onClickRoom(title) {
+  function onClickRoom(title) {
+    console.log(title);
+
     let alreadyIn = false;
     setCurrentRoom(title);
-
+    console.log(currentRoom);
     myChatList.forEach((chatroom) => {
       if (chatroom.title === title) alreadyIn = true;
     });
@@ -111,9 +111,6 @@ const Chat = ({ chatService, username }) => {
 
   useEffect(() => {
     socket.on('message', (room, message) => {
-      console.log('현재 방:' + currentRoom + '메세지 발송한방: ' + room);
-      console.log(currentRoom === room);
-
       setMessages((messages) => [...messages, message]);
     });
   }, []);
