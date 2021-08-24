@@ -1,6 +1,6 @@
 import './app.css';
 
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
 import Join from './components/Join/Join';
 import Chat from './components/Chat/Chat';
 import { useState } from 'react';
@@ -23,7 +23,11 @@ function App({ chatService }) {
         </Route>
 
         <Route path='/chat'>
-          {username && <Chat chatService={chatService} username={username} />}
+          {username ? (
+            <Chat chatService={chatService} username={username} />
+          ) : (
+            <Redirect to='/' />
+          )}
         </Route>
       </Switch>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-const InputForm = ({ sendMessage, room }) => {
+const InputForm = ({ sendMessage, room, setMessages }) => {
   const textRef = useRef();
   const formRef = useRef();
   const onSubmit = (e) => {
@@ -8,7 +8,6 @@ const InputForm = ({ sendMessage, room }) => {
     console.log(textRef.current.value);
     console.log(`${room}에서 메세지 발송 }`);
     sendMessage(textRef.current.value, room);
-
     formRef.current.reset();
   };
   return (

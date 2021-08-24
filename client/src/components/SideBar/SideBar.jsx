@@ -12,6 +12,7 @@ const SideBar = ({
   addMyChat,
   username,
   chatService,
+  setMessages,
 }) => {
   const [activeForm, setActiveForm] = useState(false);
   const inputRef = useRef();
@@ -26,6 +27,7 @@ const SideBar = ({
     history.push(`/chat/${inputRef.current.value}`);
 
     addMyChat(inputRef.current.value);
+    setMessages([]);
   };
 
   const onClose = (e) => {

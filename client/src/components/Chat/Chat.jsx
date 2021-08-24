@@ -13,7 +13,7 @@ const Chat = ({ chatService, username }) => {
   const [activedRooms, setActivedRooms] = useState([]);
 
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState('');
+
   const [users, setUsers] = useState();
   const [myChatList, setMyChatList] = useState([]);
 
@@ -26,23 +26,38 @@ const Chat = ({ chatService, username }) => {
     socket.emit('signin', { username });
   }, [BASE_URL]);
 
-  useEffect(() => {
-    chatService
-      .getRoomList()
-      .then((data) => {
-        setActivedRooms(data);
-      })
-      .catch((error) => console.log(error));
-  }, [currentRoom]);
+  const getRoomList = useCallback(async () => {
+    const rooms = await chatService.getRoomList();
+    return rooms;
+  }, []);
 
-  useEffect(() => {
+  const getRoomUsers = useCallback(async (title) => {
+    const room = await chatService.getRoom(title);
+    return room.users;
+  }, []);
+  const getMyChatRoom = useCallback(async (username) => {
+    const myChatRooms = await chatService.getMyRooms(username);
+    return myChatRooms;
+  }, []);
+
+  const addToMyChatList = useCallback(async (title) => {
+    chatService.joinRoom(username, title);
+  }, []);
+  async function addMyChat(title) {
     chatService
-      .getMyRooms(username)
-      .then((data) => {
-        setMyChatList(data.rooms);
-      })
+      .joinRoom(username, title)
+      .then((data) => setMyChatList(data))
       .catch((err) => console.error(err));
-  }, [currentRoom]);
+  }
+  useEffect(async () => {
+    const rooms = await getRoomList();
+    setActivedRooms(rooms);
+  }, []);
+
+  useEffect(async () => {
+    const mychatlist = await getMyChatRoom(username);
+    setMyChatList(mychatlist.rooms);
+  }, []);
 
   useEffect(() => {
     if (myChatList) {
@@ -52,7 +67,7 @@ const Chat = ({ chatService, username }) => {
         }
       });
     }
-  }, [currentRoom]);
+  }, []);
 
   useEffect(() => {
     chatService
@@ -61,10 +76,8 @@ const Chat = ({ chatService, username }) => {
         setUsers(data.users);
       })
       .catch((error) => console.error(error));
-  }, [currentRoom]);
-  useEffect(() => {
-    socket.emit('current room', currentRoom);
-  }, [currentRoom]);
+  }, []);
+
   useEffect(() => {
     socket.on('user list', (userList, room) => {
       console.log('userlist ->' + userList);
@@ -73,34 +86,57 @@ const Chat = ({ chatService, username }) => {
         setUsers(userList);
       }
     });
-  }, [currentRoom]);
+  }, []);
   const sendMessage = useCallback((message, sentRoom) => {
     if (message) {
       socket.emit('sendMessage', message, sentRoom, username);
     }
   }, []);
 
-  function onClickRoom(title) {
-    console.log(title);
-
-    let alreadyIn = false;
+  const changeCurrentRoom = useCallback((title) => {
     setCurrentRoom(title);
-    console.log(currentRoom);
-    myChatList.forEach((chatroom) => {
-      if (chatroom.title === title) alreadyIn = true;
+  }, []);
+
+  const onClickRoom = useCallback(async (title) => {
+    let alreadyIn = false;
+    const myRoomInfo = myChatList;
+    console.log(myRoomInfo);
+    console.log(title);
+    myRoomInfo.forEach((room) => {
+      if (room.title === title) alreadyIn = true;
     });
-
     if (!alreadyIn) {
-      addMyChat(title);
-      socket.emit('join', { room: title });
+      console.log('미참여방');
+      await addToMyChatList(title);
+      setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
     }
+    changeCurrentRoom(title);
+  });
+  // function onClickRoom(title) {
+  //   console.log(title);
 
-    history.push(`/chat/${title}`);
-  }
+  //   let alreadyIn = false;
+  //   setCurrentRoom(title);
+  //   console.log(currentRoom);
+  //   myChatList.forEach((chatroom) => {
+  //     if (chatroom.title === title) alreadyIn = true;
+  //   });
 
-  const onRoomListBtn = () => {
+  //   if (!alreadyIn) {
+  //     addMyChat(title);
+  //     socket.emit('join', { room: title });
+  //   }
+
+  //   history.push(`/chat/${title}`);
+  //   socket.emit('current room', currentRoom);
+  // }
+
+  const onRoomListBtn = async () => {
     setCurrentRoom('list');
     history.push('/chat');
+    const roomlist = await getRoomList();
+    setActivedRooms(roomlist);
+    console.log(roomlist);
   };
 
   const onNewChatBtn = (title) => {
@@ -114,12 +150,6 @@ const Chat = ({ chatService, username }) => {
       setMessages((messages) => [...messages, message]);
     });
   }, []);
-  async function addMyChat(title) {
-    chatService
-      .joinRoom(username, title)
-      .then((data) => setMyChatList(data))
-      .catch((err) => console.error(err));
-  }
 
   return (
     <div className='app'>
@@ -132,6 +162,7 @@ const Chat = ({ chatService, username }) => {
         onNewChatBtn={onNewChatBtn}
         username={username}
         chatService={chatService}
+        setMessages={setMessages}
       />
       <Content
         roomList={activedRooms}
@@ -142,6 +173,7 @@ const Chat = ({ chatService, username }) => {
         sendMessage={sendMessage}
         messages={messages}
         users={users}
+        setMessages={setMessages}
       />
     </div>
   );

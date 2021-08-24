@@ -15,6 +15,7 @@ const Content = ({
   sendMessage,
   messages,
   users,
+  setMessages,
 }) => {
   // console.log(room);
   return (
@@ -35,6 +36,7 @@ const Content = ({
             users={users}
             sendMessage={sendMessage}
             room={currentRoom}
+            setMessages={setMessages}
           />
         )}
       </div>
