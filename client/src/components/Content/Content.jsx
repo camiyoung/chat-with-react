@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './content.css';
 import { Switch, Route, useHistory } from 'react-router-dom';
 
@@ -6,42 +6,45 @@ import Header from './Header';
 import RoomList from './RoomList/RoomList';
 import ChatRoom from './ChatRoom/ChatRoom';
 
-const Content = ({
-  currentRoom,
-  roomList,
-  onClickRoom,
-  addMyChat,
-  user,
-  sendMessage,
-  messages,
-  users,
-  setMessages,
-}) => {
-  // console.log(room);
-  return (
-    <div className='content'>
-      <Header currentRoom={currentRoom} user={user} />
-      <div className='chatContainer'>
-        {currentRoom === 'list' ? (
-          <RoomList
-            roomList={roomList}
-            onClickRoom={onClickRoom}
-            addMyChat={addMyChat}
-            username={user}
-          />
-        ) : (
-          <ChatRoom
-            messages={messages}
-            user={user}
-            users={users}
-            sendMessage={sendMessage}
-            room={currentRoom}
-            setMessages={setMessages}
-          />
-        )}
+const Content = memo(
+  ({
+    currentRoom,
+    roomList,
+    onClickRoom,
+    addMyChat,
+    user,
+    sendMessage,
+
+    users,
+    message,
+
+    myChatList,
+  }) => {
+    return (
+      <div className='content'>
+        <Header currentRoom={currentRoom} user={user} />
+        <div className='chatContainer'>
+          {currentRoom === 'list' ? (
+            <RoomList
+              roomList={roomList}
+              onClickRoom={onClickRoom}
+              addMyChat={addMyChat}
+              username={user}
+            />
+          ) : (
+            <ChatRoom
+              message={message}
+              user={user}
+              users={users}
+              sendMessage={sendMessage}
+              currentRoom={currentRoom}
+              myChatList={myChatList}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default Content;

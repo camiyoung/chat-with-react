@@ -22,12 +22,8 @@ const SideBar = ({
     setActiveForm(false);
 
     onNewChatBtn(inputRef.current.value);
-    onClickRoom(inputRef.current.value);
-    chatService.postRoom(username, inputRef.current.value);
-    history.push(`/chat/${inputRef.current.value}`);
 
-    addMyChat(inputRef.current.value);
-    setMessages([]);
+    history.push(`/chat/${inputRef.current.value}`);
   };
 
   const onClose = (e) => {

@@ -9,11 +9,12 @@ import { useHistory, useLocation } from 'react-router';
 
 let socket;
 const Chat = ({ chatService, username }) => {
-  const [currentRoom, setCurrentRoom] = useState('list');
+  const [currentRoom, setCurrentRoom] = useState();
   const [activedRooms, setActivedRooms] = useState([]);
 
   const [messages, setMessages] = useState([]);
-
+  const [message, setMessage] = useState();
+  const [sendRoom, setSendRoom] = useState();
   const [users, setUsers] = useState();
   const [myChatList, setMyChatList] = useState([]);
 
@@ -24,6 +25,7 @@ const Chat = ({ chatService, username }) => {
     socket = io(BASE_URL);
 
     socket.emit('signin', { username });
+    setCurrentRoom('list');
   }, [BASE_URL]);
 
   const getRoomList = useCallback(async () => {
@@ -57,9 +59,10 @@ const Chat = ({ chatService, username }) => {
   useEffect(async () => {
     const mychatlist = await getMyChatRoom(username);
     setMyChatList(mychatlist.rooms);
-  }, []);
+  }, [currentRoom]);
 
   useEffect(() => {
+    console.log(currentRoom);
     if (myChatList) {
       myChatList.forEach((room) => {
         if (room.title === currentRoom) {
@@ -67,7 +70,21 @@ const Chat = ({ chatService, username }) => {
         }
       });
     }
-  }, []);
+  }, [currentRoom, myChatList]);
+  const getMessages = useCallback(
+    async (title) => {
+      let messages;
+      myChatList.forEach((chat) => {
+        if (chat.title === title) {
+          messages = chat.messages;
+        }
+      });
+
+      return messages;
+    },
+
+    [currentRoom]
+  );
 
   useEffect(() => {
     chatService
@@ -92,16 +109,13 @@ const Chat = ({ chatService, username }) => {
       socket.emit('sendMessage', message, sentRoom, username);
     }
   }, []);
-
-  const changeCurrentRoom = useCallback((title) => {
-    setCurrentRoom(title);
+  const changeMessages = useCallback((messages) => {
+    setMessages(messages);
   }, []);
-
   const onClickRoom = useCallback(async (title) => {
     let alreadyIn = false;
     const myRoomInfo = myChatList;
-    console.log(myRoomInfo);
-    console.log(title);
+
     myRoomInfo.forEach((room) => {
       if (room.title === title) alreadyIn = true;
     });
@@ -110,26 +124,8 @@ const Chat = ({ chatService, username }) => {
       await addToMyChatList(title);
       setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
     }
-    changeCurrentRoom(title);
+    setCurrentRoom(title);
   });
-  // function onClickRoom(title) {
-  //   console.log(title);
-
-  //   let alreadyIn = false;
-  //   setCurrentRoom(title);
-  //   console.log(currentRoom);
-  //   myChatList.forEach((chatroom) => {
-  //     if (chatroom.title === title) alreadyIn = true;
-  //   });
-
-  //   if (!alreadyIn) {
-  //     addMyChat(title);
-  //     socket.emit('join', { room: title });
-  //   }
-
-  //   history.push(`/chat/${title}`);
-  //   socket.emit('current room', currentRoom);
-  // }
 
   const onRoomListBtn = async () => {
     setCurrentRoom('list');
@@ -139,18 +135,27 @@ const Chat = ({ chatService, username }) => {
     console.log(roomlist);
   };
 
-  const onNewChatBtn = (title) => {
+  const onNewChatBtn = useCallback(async (title) => {
     setActivedRooms((activedRooms) => {
       return [...activedRooms, { title }];
     });
-  };
-
-  useEffect(() => {
-    socket.on('message', (room, message) => {
-      setMessages((messages) => [...messages, message]);
-    });
+    await chatService.postRoom(username, title);
+    onClickRoom(title);
   }, []);
 
+  const addNewMessage = useCallback((message, title) => {
+    myChatList.forEach((room) => {
+      if (room.title === title) {
+        console.log(room.messages);
+      }
+    });
+  });
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessage(message);
+    });
+  }, []);
   return (
     <div className='app'>
       <SideBar
@@ -174,6 +179,10 @@ const Chat = ({ chatService, username }) => {
         messages={messages}
         users={users}
         setMessages={setMessages}
+        getMessages={getMessages}
+        myChatList={myChatList}
+        message={message}
+        sendRoom={sendRoom}
       />
     </div>
   );

@@ -66,8 +66,12 @@ io.on('connect', (socket) => {
         }
       });
 
-      socket.emit('message', currentRoom, { sender, message });
-      socket.broadcast.emit('message', currentRoom, { sender, message });
+      socket.emit('message', { sender, message, sentRoom });
+      socket.broadcast.emit('message', {
+        sender,
+        message,
+        sentRoom,
+      });
     });
   });
 });
