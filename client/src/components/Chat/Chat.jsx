@@ -35,7 +35,7 @@ const Chat = ({ chatService, username }) => {
 
   const getRoomUsers = useCallback(async (title) => {
     const room = await chatService.getRoom(title);
-    return room.users;
+    return room;
   }, []);
   const getMyChatRoom = useCallback(async (username) => {
     const myChatRooms = await chatService.getMyRooms(username);
@@ -95,15 +95,6 @@ const Chat = ({ chatService, username }) => {
       .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
-    socket.on('user list', (userList, room) => {
-      console.log('userlist ->' + userList);
-      console.log(room, currentRoom);
-      if (currentRoom === room) {
-        setUsers(userList);
-      }
-    });
-  }, []);
   const sendMessage = useCallback((message, sentRoom) => {
     if (message) {
       socket.emit('sendMessage', message, sentRoom, username);
@@ -123,7 +114,11 @@ const Chat = ({ chatService, username }) => {
       console.log('미참여방');
       await addToMyChatList(title);
       setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
+      socket.emit('user list', { title });
     }
+    const roominfo = await getRoomUsers(title);
+    console.log(roominfo.users);
+    setUsers(roominfo);
     setCurrentRoom(title);
   });
 
@@ -132,7 +127,6 @@ const Chat = ({ chatService, username }) => {
     history.push('/chat');
     const roomlist = await getRoomList();
     setActivedRooms(roomlist);
-    console.log(roomlist);
   };
 
   const onNewChatBtn = useCallback(async (title) => {
@@ -155,12 +149,18 @@ const Chat = ({ chatService, username }) => {
     socket.on('message', (message) => {
       setMessage(message);
     });
+    socket.on('users', (room) => {
+      console.log(room);
+      setUsers(room);
+    });
   }, []);
+
   return (
     <div className='app'>
       <SideBar
         roomList={myChatList}
         addMyChat={addMyChat}
+        message={message}
         currentRoom={currentRoom}
         onClickRoom={onClickRoom}
         onRoomListBtn={onRoomListBtn}
@@ -183,6 +183,7 @@ const Chat = ({ chatService, username }) => {
         myChatList={myChatList}
         message={message}
         sendRoom={sendRoom}
+        getRoomUsers={getRoomUsers}
       />
     </div>
   );

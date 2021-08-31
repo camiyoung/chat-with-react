@@ -19,6 +19,7 @@ const Content = memo(
     message,
 
     myChatList,
+    getRoomUsers,
   }) => {
     return (
       <div className='content'>
@@ -39,6 +40,7 @@ const Content = memo(
               sendMessage={sendMessage}
               currentRoom={currentRoom}
               myChatList={myChatList}
+              getRoomUsers={getRoomUsers}
             />
           )}
         </div>

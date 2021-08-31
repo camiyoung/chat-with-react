@@ -9,8 +9,10 @@ const ChatRoom = ({
   users,
   sendMessage,
   myChatList,
+  getRoomUsers,
 }) => {
   const [messages, setMessages] = useState([]);
+  const [userList, setUserList] = useState();
   console.log(myChatList);
   useEffect(() => {
     if (myChatList) {
@@ -34,6 +36,15 @@ const ChatRoom = ({
       }
     }
   }, [message]);
+
+  useEffect(() => {
+    console.log(users);
+    if (users) {
+      if (currentRoom === users.title) {
+        setUserList(users.users);
+      }
+    }
+  }, [users]);
   return (
     <div className='chatRoom'>
       <div className='chatArea'>
@@ -45,7 +56,7 @@ const ChatRoom = ({
         />
       </div>
 
-      <UserList users={users} />
+      <UserList users={userList} />
     </div>
   );
 };

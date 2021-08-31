@@ -51,6 +51,11 @@ io.on('connect', (socket) => {
       console.log(`${username}의 current room = ${room}`);
       currentRoom = room;
     });
+    socket.on('user list', async (room) => {
+      const findRoom = await roomRepository.getRoom(room.title);
+      console.log(findRoom);
+      socket.broadcast.emit('users', findRoom);
+    });
 
     socket.on('sendMessage', async (message, sentRoom, sender) => {
       const result = await userRepository.addMessage(username, sentRoom, {
