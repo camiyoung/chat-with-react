@@ -8,11 +8,11 @@
 
 .join_container {
   width: 50%;
-  height: 20em;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0;
   background-color: white;
   border-radius: 10px;
@@ -50,6 +50,7 @@
   background-color: rgb(12, 166, 238);
   height: 1.5rem;
   color: white;
+  border-radius: 0 0 10px 10px;
 }
 
 .joinInput {

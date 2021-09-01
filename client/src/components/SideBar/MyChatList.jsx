@@ -1,7 +1,14 @@
 import React from 'react';
 import MyChat from './MyChat';
 
-const MyChatList = ({ roomList, onClickRoom, addMyChat, username }) => {
+const MyChatList = ({
+  roomList,
+  onClickRoom,
+  addMyChat,
+  username,
+  message,
+  currentRoom,
+}) => {
   return (
     <ul className='myChatRoomList'>
       {roomList &&
@@ -11,6 +18,7 @@ const MyChatList = ({ roomList, onClickRoom, addMyChat, username }) => {
             onClickRoom={onClickRoom}
             addMyChat={addMyChat}
             username={username}
+            hasNew={room.hasNew}
           />
         ))}
     </ul>

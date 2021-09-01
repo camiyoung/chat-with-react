@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './sideBar.css';
 import Buttons from './Buttons';
 import MyChatList from './MyChatList';
@@ -13,8 +13,11 @@ const SideBar = ({
   username,
   chatService,
   setMessages,
+  message,
+  currentRoom,
 }) => {
   const [activeForm, setActiveForm] = useState(false);
+
   const inputRef = useRef();
   const history = useHistory();
   const onSubmit = (e) => {
@@ -33,6 +36,7 @@ const SideBar = ({
   const setActiveStatus = () => {
     setActiveForm(!activeForm);
   };
+
   return (
     <div className='sideBar'>
       {activeForm ? (
@@ -60,6 +64,8 @@ const SideBar = ({
         onClickRoom={onClickRoom}
         addMyChat={addMyChat}
         username={username}
+        currentRoom={currentRoom}
+        message={message}
       />
     </div>
   );
