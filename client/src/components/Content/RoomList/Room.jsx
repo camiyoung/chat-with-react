@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-const Room = ({ room, onClickRoom, addMyChat, username }) => {
+const Room = ({ room, onClickRoom }) => {
   const onRoom = () => {
     onClickRoom(room);
   };

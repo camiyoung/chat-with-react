@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-const InputForm = ({ sendMessage, currentRoom, setMessages }) => {
+const InputForm = ({ sendMessage, currentRoom }) => {
   const textRef = useRef();
   const formRef = useRef();
   const onSubmit = (e) => {

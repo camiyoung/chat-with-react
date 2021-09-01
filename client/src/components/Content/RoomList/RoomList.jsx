@@ -1,17 +1,12 @@
 import React from 'react';
 import Room from './Room';
 
-const RoomList = ({ roomList, onClickRoom, addMyChat, username }) => {
+const RoomList = ({ roomList, onClickRoom }) => {
   return (
     <div>
       <ul className='rooms'>
         {roomList.map((room) => (
-          <Room
-            room={room.title}
-            onClickRoom={onClickRoom}
-            addMyChat={addMyChat}
-            username={username}
-          />
+          <Room room={room.title} onClickRoom={onClickRoom} />
         ))}
       </ul>
     </div>

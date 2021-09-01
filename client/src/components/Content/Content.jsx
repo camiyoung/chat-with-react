@@ -11,27 +11,18 @@ const Content = memo(
     currentRoom,
     roomList,
     onClickRoom,
-    addMyChat,
     user,
     sendMessage,
-
     users,
     message,
-
     myChatList,
-    getRoomUsers,
   }) => {
     return (
       <div className='content'>
         <Header currentRoom={currentRoom} user={user} />
         <div className='chatContainer'>
           {currentRoom === 'list' ? (
-            <RoomList
-              roomList={roomList}
-              onClickRoom={onClickRoom}
-              addMyChat={addMyChat}
-              username={user}
-            />
+            <RoomList roomList={roomList} onClickRoom={onClickRoom} />
           ) : (
             <ChatRoom
               message={message}
@@ -40,7 +31,6 @@ const Content = memo(
               sendMessage={sendMessage}
               currentRoom={currentRoom}
               myChatList={myChatList}
-              getRoomUsers={getRoomUsers}
             />
           )}
         </div>

@@ -9,7 +9,6 @@ const ChatRoom = ({
   users,
   sendMessage,
   myChatList,
-  getRoomUsers,
 }) => {
   const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState();

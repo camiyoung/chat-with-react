@@ -11,8 +11,6 @@ const SideBar = ({
   onNewChatBtn,
   addMyChat,
   username,
-  chatService,
-  setMessages,
   message,
   currentRoom,
 }) => {

@@ -2,10 +2,9 @@ import React, { useCallback, useEffect } from 'react';
 import Content from '../Content/Content';
 import SideBar from '../SideBar/SideBar';
 import { useState } from 'react';
-import queryString from 'query-string';
 import io from 'socket.io-client';
 
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 
 let socket;
 const Chat = ({ chatService, username }) => {
@@ -14,7 +13,7 @@ const Chat = ({ chatService, username }) => {
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState();
-  const [sendRoom, setSendRoom] = useState();
+
   const [users, setUsers] = useState();
   const [myChatList, setMyChatList] = useState([]);
 
@@ -100,9 +99,7 @@ const Chat = ({ chatService, username }) => {
       socket.emit('sendMessage', message, sentRoom, username);
     }
   }, []);
-  const changeMessages = useCallback((messages) => {
-    setMessages(messages);
-  }, []);
+
   const onClickRoom = useCallback(async (title) => {
     let alreadyIn = false;
     const myRoomInfo = myChatList;
@@ -137,14 +134,6 @@ const Chat = ({ chatService, username }) => {
     onClickRoom(title);
   }, []);
 
-  const addNewMessage = useCallback((message, title) => {
-    myChatList.forEach((room) => {
-      if (room.title === title) {
-        console.log(room.messages);
-      }
-    });
-  });
-
   useEffect(() => {
     socket.on('message', (message) => {
       setMessage(message);
@@ -166,8 +155,6 @@ const Chat = ({ chatService, username }) => {
         onRoomListBtn={onRoomListBtn}
         onNewChatBtn={onNewChatBtn}
         username={username}
-        chatService={chatService}
-        setMessages={setMessages}
       />
       <Content
         roomList={activedRooms}
@@ -178,12 +165,8 @@ const Chat = ({ chatService, username }) => {
         sendMessage={sendMessage}
         messages={messages}
         users={users}
-        setMessages={setMessages}
-        getMessages={getMessages}
         myChatList={myChatList}
         message={message}
-        sendRoom={sendRoom}
-        getRoomUsers={getRoomUsers}
       />
     </div>
   );
