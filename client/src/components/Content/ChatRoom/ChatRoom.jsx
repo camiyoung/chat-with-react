@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserList from './UserList/UserList';
 import Messages from './Messages/Messages';
 import InputForm from './InputForm';
@@ -32,7 +32,7 @@ const ChatRoom = ({
         });
       }
     }
-  }, [message]);
+  }, [message, currentRoom]);
 
   useEffect(() => {
     if (users) {
@@ -40,7 +40,7 @@ const ChatRoom = ({
         setUserList(users.users);
       }
     }
-  }, [users]);
+  }, [users, currentRoom]);
   return (
     <div className='chatRoom'>
       <div className='chatArea'>

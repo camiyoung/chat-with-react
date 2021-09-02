@@ -1,6 +1,6 @@
 import './app.css';
 
-import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Join from './components/Join/Join';
 import Chat from './components/Chat/Chat';
 import { useState } from 'react';

@@ -32,11 +32,9 @@ io.on('connect', (socket) => {
       currentRoom = room;
       socket.join(currentRoom);
       console.log(socket.rooms);
-      socket.to(currentRoom).emit('message', {
-        user: 'admin',
-        message: `${username}님이 입장하셨습니다.`,
-        sentRoom: room,
-      });
+      const message = `${username}님이 입장하셨습니다.`;
+
+      socket.to(currentRoom).emit('sendMessage', message, room, 'admin');
     });
 
     socket.on('user list', async (room) => {

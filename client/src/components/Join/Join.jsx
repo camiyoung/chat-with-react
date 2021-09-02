@@ -1,6 +1,6 @@
 import './join.css';
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 const Join = ({ chatService, setUsername }) => {
   const [name, setName] = useState('');
   const history = useHistory();

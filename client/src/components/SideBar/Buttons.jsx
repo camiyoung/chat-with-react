@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const Buttons = ({ onRoomListBtn, setActiveStatus, username }) => {
-  const onNewchatBtn = () => {};
+const Buttons = ({ onRoomListBtn, setActiveStatus }) => {
   return (
     <div className='buttons'>
       <div className='btn_roomlist' onClick={onRoomListBtn}>

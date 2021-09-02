@@ -1,6 +1,5 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo } from 'react';
 import './content.css';
-import { Switch, Route, useHistory } from 'react-router-dom';
 
 import Header from './Header';
 import RoomList from './RoomList/RoomList';

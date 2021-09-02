@@ -25,40 +25,53 @@ const Chat = ({ chatService, username }) => {
 
     socket.emit('signin', { username });
     setCurrentRoom('list');
-  }, [BASE_URL]);
+  }, [username]);
 
   const getRoomList = useCallback(async () => {
     const rooms = await chatService.getRoomList();
     return rooms;
-  }, []);
+  }, [chatService]);
 
-  const getRoomUsers = useCallback(async (title) => {
-    const room = await chatService.getRoom(title);
-    return room;
-  }, []);
-  const getMyChatRoom = useCallback(async (username) => {
-    const myChatRooms = await chatService.getMyRooms(username);
-    return myChatRooms;
-  }, []);
+  const getRoomUsers = useCallback(
+    async (title) => {
+      const room = await chatService.getRoom(title);
+      return room;
+    },
+    [chatService]
+  );
+  const getMyChatRoom = useCallback(
+    async (username) => {
+      const myChatRooms = await chatService.getMyRooms(username);
+      return myChatRooms;
+    },
+    [chatService]
+  );
 
-  const addToMyChatList = useCallback(async (title) => {
-    chatService.joinRoom(username, title);
-  }, []);
+  const addToMyChatList = useCallback(
+    async (title) => {
+      chatService.joinRoom(username, title);
+    },
+    [chatService, username]
+  );
   async function addMyChat(title) {
     chatService
       .joinRoom(username, title)
       .then((data) => setMyChatList(data))
       .catch((err) => console.error(err));
   }
-  useEffect(async () => {
-    const rooms = await getRoomList();
-    setActivedRooms(rooms);
-  }, []);
+  useEffect(() => {
+    (async function () {
+      const rooms = await getRoomList();
+      setActivedRooms(rooms);
+    })();
+  }, [getRoomList]);
 
-  useEffect(async () => {
-    const mychatlist = await getMyChatRoom(username);
-    setMyChatList(mychatlist.rooms);
-  }, [currentRoom]);
+  useEffect(() => {
+    (async function () {
+      const mychatlist = await getMyChatRoom(username);
+      setMyChatList(mychatlist.rooms);
+    })();
+  }, [currentRoom, getMyChatRoom, username]);
 
   useEffect(() => {
     if (myChatList) {
@@ -69,20 +82,6 @@ const Chat = ({ chatService, username }) => {
       });
     }
   }, [currentRoom, myChatList]);
-  const getMessages = useCallback(
-    async (title) => {
-      let messages;
-      myChatList.forEach((chat) => {
-        if (chat.title === title) {
-          messages = chat.messages;
-        }
-      });
-
-      return messages;
-    },
-
-    [currentRoom]
-  );
 
   useEffect(() => {
     chatService
@@ -91,31 +90,37 @@ const Chat = ({ chatService, username }) => {
         setUsers(data.users);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [chatService, currentRoom]);
 
-  const sendMessage = useCallback((message, sentRoom) => {
-    if (message) {
-      socket.emit('sendMessage', message, sentRoom, username);
-    }
-  }, []);
+  const sendMessage = useCallback(
+    (message, sentRoom) => {
+      if (message) {
+        socket.emit('sendMessage', message, sentRoom, username);
+      }
+    },
+    [username]
+  );
 
-  const onClickRoom = useCallback(async (title) => {
-    let alreadyIn = false;
-    const myRoomInfo = myChatList;
+  const onClickRoom = useCallback(
+    async (title) => {
+      let alreadyIn = false;
+      const myRoomInfo = myChatList;
 
-    myRoomInfo.forEach((room) => {
-      if (room.title === title) alreadyIn = true;
-    });
-    if (!alreadyIn) {
-      await addToMyChatList(title);
-      setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
-      socket.emit('user list', { title });
-      socket.emit('join', title);
-    }
-    const roominfo = await getRoomUsers(title);
-    setUsers(roominfo);
-    setCurrentRoom(title);
-  });
+      myRoomInfo.forEach((room) => {
+        if (room.title === title) alreadyIn = true;
+      });
+      if (!alreadyIn) {
+        await addToMyChatList(title);
+        setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
+        socket.emit('user list', { title });
+        socket.emit('join', title);
+      }
+      const roominfo = await getRoomUsers(title);
+      setUsers(roominfo);
+      setCurrentRoom(title);
+    },
+    [myChatList, addToMyChatList, getRoomUsers]
+  );
 
   const onRoomListBtn = async () => {
     setCurrentRoom('list');
@@ -124,13 +129,16 @@ const Chat = ({ chatService, username }) => {
     setActivedRooms(roomlist);
   };
 
-  const onNewChatBtn = useCallback(async (title) => {
-    setActivedRooms((activedRooms) => {
-      return [...activedRooms, { title }];
-    });
-    await chatService.postRoom(username, title);
-    onClickRoom(title);
-  }, []);
+  const onNewChatBtn = useCallback(
+    async (title) => {
+      setActivedRooms((activedRooms) => {
+        return [...activedRooms, { title }];
+      });
+      await chatService.postRoom(username, title);
+      onClickRoom(title);
+    },
+    [chatService, onClickRoom, username]
+  );
 
   useEffect(() => {
     socket.on('message', (message) => {
