@@ -27,30 +27,18 @@ io.on('connect', (socket) => {
   socket.on('signin', ({ username }) => {
     console.log(`@@ 사용자 연결 : ${username} (${socket.id})`);
 
-    socket.on('join', async ({ room }) => {
+    socket.on('join', async (room) => {
       console.log(`@@ 채팅방 입장 (${username} )to( ${room} )`);
       currentRoom = room;
       socket.join(currentRoom);
       console.log(socket.rooms);
-      socket.to(room).emit('message', currentRoom, {
+      socket.to(currentRoom).emit('message', {
         user: 'admin',
         message: `${username}님이 입장하셨습니다.`,
+        sentRoom: room,
       });
-
-      roomRepository.addUserToRoom(username, currentRoom);
-      const currentRoomData = await roomRepository.getRoom(currentRoom);
-      let userList;
-      if (currentRoomData) {
-        userList = currentRoomData.users;
-      }
-
-      io.to(room).emit('user list', userList, currentRoom);
     });
 
-    socket.on('current room', (room) => {
-      console.log(`${username}의 current room = ${room}`);
-      currentRoom = room;
-    });
     socket.on('user list', async (room) => {
       const findRoom = await roomRepository.getRoom(room.title);
       console.log(findRoom);

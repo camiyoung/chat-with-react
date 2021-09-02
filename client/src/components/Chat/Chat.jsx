@@ -61,7 +61,6 @@ const Chat = ({ chatService, username }) => {
   }, [currentRoom]);
 
   useEffect(() => {
-    console.log(currentRoom);
     if (myChatList) {
       myChatList.forEach((room) => {
         if (room.title === currentRoom) {
@@ -108,13 +107,12 @@ const Chat = ({ chatService, username }) => {
       if (room.title === title) alreadyIn = true;
     });
     if (!alreadyIn) {
-      console.log('미참여방');
       await addToMyChatList(title);
       setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
       socket.emit('user list', { title });
+      socket.emit('join', title);
     }
     const roominfo = await getRoomUsers(title);
-    console.log(roominfo.users);
     setUsers(roominfo);
     setCurrentRoom(title);
   });
@@ -139,7 +137,6 @@ const Chat = ({ chatService, username }) => {
       setMessage(message);
     });
     socket.on('users', (room) => {
-      console.log(room);
       setUsers(room);
     });
   }, []);

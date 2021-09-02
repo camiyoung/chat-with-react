@@ -12,12 +12,11 @@ const ChatRoom = ({
 }) => {
   const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState();
-  console.log(myChatList);
+
   useEffect(() => {
     if (myChatList) {
       myChatList.forEach((room) => {
         if (room.title === currentRoom) {
-          console.log(room);
           setMessages(room.messages);
         }
       });
@@ -25,7 +24,6 @@ const ChatRoom = ({
   }, [currentRoom, myChatList]);
 
   useEffect(() => {
-    console.log(message);
     if (message) {
       if (currentRoom === message.sentRoom) {
         setMessages((messages) => {
@@ -37,7 +35,6 @@ const ChatRoom = ({
   }, [message]);
 
   useEffect(() => {
-    console.log(users);
     if (users) {
       if (currentRoom === users.title) {
         setUserList(users.users);

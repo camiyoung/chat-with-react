@@ -5,8 +5,7 @@ const InputForm = ({ sendMessage, currentRoom }) => {
   const formRef = useRef();
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(textRef.current.value);
-    console.log(`${currentRoom}에서 메세지 발송 }`);
+
     sendMessage(textRef.current.value, currentRoom);
     formRef.current.reset();
   };
