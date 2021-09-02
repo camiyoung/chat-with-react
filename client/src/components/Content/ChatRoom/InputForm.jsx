@@ -5,7 +5,6 @@ const InputForm = ({ sendMessage, currentRoom }) => {
   const formRef = useRef();
   const onSubmit = (e) => {
     e.preventDefault();
-
     sendMessage(textRef.current.value, currentRoom);
     formRef.current.reset();
   };

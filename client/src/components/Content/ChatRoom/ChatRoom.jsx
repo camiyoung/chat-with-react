@@ -12,7 +12,6 @@ const ChatRoom = ({
 }) => {
   const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState();
-
   useEffect(() => {
     if (myChatList) {
       myChatList.forEach((room) => {

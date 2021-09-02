@@ -31,7 +31,7 @@ io.on('connect', (socket) => {
       console.log(`@@ 채팅방 입장 (${username} )to( ${room} )`);
       currentRoom = room;
       socket.join(currentRoom);
-      console.log(socket.rooms);
+
       const message = `${username}님이 입장하셨습니다.`;
 
       socket.to(currentRoom).emit('sendMessage', message, room, 'admin');
