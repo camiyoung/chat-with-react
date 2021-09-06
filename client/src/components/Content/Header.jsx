@@ -9,7 +9,7 @@ const Header = ({ currentRoom, user }) => {
       ) : (
         <h1 className='headertext'>현재 목록</h1>
       )}
-      <h4 className='headerUser'>현재 접속중 : {user}</h4>
+      <h4 className='headerUser'> {user}</h4>
     </header>
   );
 };

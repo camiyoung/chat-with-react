@@ -1,13 +1,15 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListAlt, faEdit } from '@fortawesome/free-regular-svg-icons';
 
 const Buttons = ({ onRoomListBtn, setActiveStatus }) => {
   return (
     <div className='buttons'>
       <div className='btn_roomlist' onClick={onRoomListBtn}>
-        채팅방목록
+        <FontAwesomeIcon icon={faListAlt} size='lg' />
       </div>
       <div className='btn_newchat' onClick={setActiveStatus}>
-        새 채팅
+        <FontAwesomeIcon icon={faEdit} size='lg' />
       </div>
     </div>
   );

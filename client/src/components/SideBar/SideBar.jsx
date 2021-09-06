@@ -21,10 +21,11 @@ const SideBar = ({
   const onSubmit = (e) => {
     e.preventDefault();
     setActiveForm(false);
+    if (inputRef.current.value !== '') {
+      onNewChatBtn(inputRef.current.value);
 
-    onNewChatBtn(inputRef.current.value);
-
-    history.push(`/chat/${inputRef.current.value}`);
+      history.push(`/chat/${inputRef.current.value}`);
+    }
   };
 
   const onClose = (e) => {
@@ -38,7 +39,7 @@ const SideBar = ({
   return (
     <div className='sideBar'>
       {activeForm ? (
-        <form className='form'>
+        <form className='make-form'>
           <input ref={inputRef} />
           <div className='form_buttons'>
             <div className='button make' onClick={onSubmit}>

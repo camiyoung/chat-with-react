@@ -15,7 +15,7 @@ const Join = ({ chatService, setUsername }) => {
   return (
     <div className='join'>
       <div className='join_container'>
-        <h1 className='heading'> Chat Service 💌 </h1>
+        <h1 className='heading'> Chat Service with React💌 </h1>
         <div className='form'>
           <input
             placeholder='Enter Username...'
