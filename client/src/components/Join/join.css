@@ -8,8 +8,8 @@
 }
 
 .join_container {
-  width: 40%;
-  height: 30%;
+  width: 500px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +45,7 @@
 .join_button {
   border: 0;
   background-color: var(--secondary-color);
-  height: 1.6rem;
+  height: 30px;
   color: white;
   border-radius: 5px;
   margin-left: 5px;
@@ -53,6 +53,7 @@
 
 .joinInput {
   border: 1px solid rgb(199, 199, 199);
-  height: 1.5rem;
+  height: 28px;
+  width: 200px;
   padding: 0;
 }
