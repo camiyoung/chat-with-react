@@ -7,7 +7,9 @@ import * as roomRepository from './data/room.js';
 import * as userRepository from './data/users.js';
 import path from 'path';
 const app = express();
-const server = app.listen(5000, () => console.log(`서버시작`));
+const server = app.listen(process.env.PORT || 5000, () =>
+  console.log(`서버시작`)
+);
 const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
 const __dirname = path.resolve();
 
