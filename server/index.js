@@ -5,9 +5,11 @@ import { Server } from 'socket.io';
 import router from './router.js';
 import * as roomRepository from './data/room.js';
 import * as userRepository from './data/users.js';
+import path from 'path';
 const app = express();
-const server = app.listen(8080, () => console.log(`서버시작`));
+const server = app.listen(5000, () => console.log(`서버시작`));
 const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
+const __dirname = path.resolve();
 
 app.use(cors({ origin: '*' }));
 
@@ -20,6 +22,12 @@ app.use(router);
 app.use((error, req, res, next) => {
   console.error(error);
   res.sendStatus(500);
+});
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// 라우트 설정
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '../client/build/index.html'));
 });
 
 io.on('connect', (socket) => {

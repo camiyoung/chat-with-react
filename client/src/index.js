@@ -5,7 +5,7 @@ import App from './app.jsx';
 import HttpClient from './service/http';
 import ChatService from './service/chat';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = 'http://localhost:5000';
 const httpClient = new HttpClient(baseURL);
 const chatService = new ChatService(httpClient);
 
