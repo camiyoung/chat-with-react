@@ -13,8 +13,6 @@ app.use(cors({ origin: '*' }));
 const io = new Server(server, { cors: { origin: '*' } });
 console.log(port);
 
-app.use(express.static(routepath));
-
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(morgan('tiny'));

@@ -7,8 +7,7 @@
     "start": "nodemon ./server/index.js",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "npm start",
-    "dev:client": "cd client && npm start",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "dev:client": "cd client && npm start"
   },
   "author": "",
   "license": "ISC",
