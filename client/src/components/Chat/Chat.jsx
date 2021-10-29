@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import { useHistory } from 'react-router';
 
 let socket;
-const Chat = ({ chatService, username }) => {
+const Chat = ({ chatService, username, baseURL }) => {
   const [currentRoom, setCurrentRoom] = useState();
   const [activedRooms, setActivedRooms] = useState([]);
 
@@ -18,10 +18,9 @@ const Chat = ({ chatService, username }) => {
   const [myChatList, setMyChatList] = useState([]);
 
   const history = useHistory();
-  const BASE_URL = 'http://localhost:8080/';
 
   useEffect(() => {
-    socket = io(BASE_URL);
+    socket = io(baseURL);
 
     socket.emit('signin', { username });
     setCurrentRoom('list');

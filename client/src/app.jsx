@@ -5,7 +5,7 @@ import Join from './components/Join/Join';
 import Chat from './components/Chat/Chat';
 import { useState } from 'react';
 
-function App({ chatService }) {
+function App({ chatService, baseURL }) {
   const [username, setUsername] = useState();
 
   return (
@@ -24,7 +24,11 @@ function App({ chatService }) {
 
         <Route path='/chat'>
           {username ? (
-            <Chat chatService={chatService} username={username} />
+            <Chat
+              chatService={chatService}
+              username={username}
+              baseURL={baseURL}
+            />
           ) : (
             <Redirect to='/' />
           )}

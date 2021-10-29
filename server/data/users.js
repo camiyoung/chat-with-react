@@ -32,6 +32,7 @@ export async function getUser(username) {
   return finduser;
 }
 export function getUsers() {
+  console.log('getusers');
   return users;
 }
 

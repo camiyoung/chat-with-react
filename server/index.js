@@ -5,15 +5,15 @@ import { Server } from 'socket.io';
 import router from './router.js';
 import * as roomRepository from './data/room.js';
 import * as userRepository from './data/users.js';
-import path from 'path';
-const app = express();
-const server = app.listen(process.env.PORT || 5000, () =>
-  console.log(`서버시작`)
-);
-const io = new Server(server, { cors: { origin: 'http://localhost:3000' } });
-const __dirname = path.resolve();
 
+const app = express();
+const port = process.env.PORT || 5000;
+const server = app.listen(port, () => console.log(`서버시작`));
 app.use(cors({ origin: '*' }));
+const io = new Server(server, { cors: { origin: '*' } });
+console.log(port);
+
+app.use(express.static(routepath));
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,15 +21,11 @@ app.use(express.json());
 
 app.use(router);
 
+// 리액트 정적 파일 제공
+
 app.use((error, req, res, next) => {
   console.error(error);
   res.sendStatus(500);
-});
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-// 라우트 설정
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../client/build/index.html'));
 });
 
 io.on('connect', (socket) => {

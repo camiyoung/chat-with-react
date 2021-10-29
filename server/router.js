@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 //GET 개설된 채팅방 리스트 불러오기
 router.get('/chat', async (req, res) => {
   const room = roomRepository.getRooms();
-
+  console.log(room);
   res.status(200).json(room);
 });
 
