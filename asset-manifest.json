@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "./static/css/main.dc3ea238.chunk.css",
-    "main.js": "./static/js/main.520b9e4e.chunk.js",
-    "main.js.map": "./static/js/main.520b9e4e.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.cb05eaa7.js",
-    "runtime-main.js.map": "./static/js/runtime-main.cb05eaa7.js.map",
-    "static/js/2.95a75473.chunk.js": "./static/js/2.95a75473.chunk.js",
-    "static/js/2.95a75473.chunk.js.map": "./static/js/2.95a75473.chunk.js.map",
-    "index.html": "./index.html",
-    "static/css/main.dc3ea238.chunk.css.map": "./static/css/main.dc3ea238.chunk.css.map",
-    "static/js/2.95a75473.chunk.js.LICENSE.txt": "./static/js/2.95a75473.chunk.js.LICENSE.txt"
+    "main.css": "/camiyoung/chat-with-react/static/css/main.dc3ea238.chunk.css",
+    "main.js": "/camiyoung/chat-with-react/static/js/main.9b5c62b2.chunk.js",
+    "main.js.map": "/camiyoung/chat-with-react/static/js/main.9b5c62b2.chunk.js.map",
+    "runtime-main.js": "/camiyoung/chat-with-react/static/js/runtime-main.36255cf3.js",
+    "runtime-main.js.map": "/camiyoung/chat-with-react/static/js/runtime-main.36255cf3.js.map",
+    "static/js/2.24000389.chunk.js": "/camiyoung/chat-with-react/static/js/2.24000389.chunk.js",
+    "static/js/2.24000389.chunk.js.map": "/camiyoung/chat-with-react/static/js/2.24000389.chunk.js.map",
+    "index.html": "/camiyoung/chat-with-react/index.html",
+    "static/css/main.dc3ea238.chunk.css.map": "/camiyoung/chat-with-react/static/css/main.dc3ea238.chunk.css.map",
+    "static/js/2.24000389.chunk.js.LICENSE.txt": "/camiyoung/chat-with-react/static/js/2.24000389.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.cb05eaa7.js",
-    "static/js/2.95a75473.chunk.js",
+    "static/js/runtime-main.36255cf3.js",
+    "static/js/2.24000389.chunk.js",
     "static/css/main.dc3ea238.chunk.css",
-    "static/js/main.520b9e4e.chunk.js"
+    "static/js/main.9b5c62b2.chunk.js"
   ]
 }
