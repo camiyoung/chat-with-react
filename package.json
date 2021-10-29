@@ -7,7 +7,9 @@
     "start": "nodemon ./server/index.js",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "npm start",
-    "dev:client": "cd client && npm start"
+    "dev:client": "cd client && npm start",
+    "predeploy": "cd client && npm run build",
+    "deploy": "gh-pages -d ./client/build"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,8 @@
     "concurrently": "^6.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "gh-pages": "^3.2.3",
+    "install": "^0.13.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
     "socket.io": "^4.1.3"
@@ -28,5 +32,5 @@
   "bugs": {
     "url": "https://github.com/camiyoung/chat-with-react/issues"
   },
-  "homepage": "https://github.com/camiyoung/chat-with-react#readme"
+  "homepage": "https://camiyoung.github.io/chat-with-react"
 }
