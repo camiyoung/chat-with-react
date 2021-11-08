@@ -1,5 +1,6 @@
 let users = [
   {
+    id: 1,
     username: 'jiyoung',
     rooms: [
       { title: 'room1', messages: [{ sender: 'user1', message: 'hello' }] },
@@ -13,6 +14,7 @@ let users = [
     ],
   },
   {
+    id: 2,
     username: 'user2',
     rooms: [
       { title: 'room1', messages: [{ sender: 'user1', message: 'hello' }] },
@@ -40,7 +42,7 @@ export function signUp(username) {
   const exsitedUser = users.find((user) => user.username === username);
 
   if (!exsitedUser) {
-    users.push({ username, rooms: [] });
+    users.push({ id: Date.now(), username, rooms: [] });
   }
 }
 

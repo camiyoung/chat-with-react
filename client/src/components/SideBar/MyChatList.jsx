@@ -19,6 +19,7 @@ const MyChatList = ({
             addMyChat={addMyChat}
             username={username}
             hasNew={room.hasNew}
+            key={room.title}
           />
         ))}
     </ul>

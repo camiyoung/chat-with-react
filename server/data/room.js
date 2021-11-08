@@ -2,10 +2,12 @@ let Rooms = [
   {
     title: 'room1',
     users: ['jiyoung', 'user1'],
+    id: 1,
   },
   {
     title: 'room3',
     users: ['jiyoung', 'user2'],
+    id: 2,
   },
 ];
 export function setMessage(title, user, message) {
@@ -47,6 +49,7 @@ export async function createRoom(title, user) {
     {
       title,
       users: [user],
+      id: Date.now(),
     },
   ];
   return Rooms;

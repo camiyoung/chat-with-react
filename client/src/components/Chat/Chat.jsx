@@ -24,7 +24,7 @@ const Chat = ({ chatService, username, baseURL }) => {
 
     socket.emit('signin', { username });
     setCurrentRoom('list');
-  }, [username]);
+  }, [username, baseURL]);
 
   const getRoomList = useCallback(async () => {
     const rooms = await chatService.getRoomList();
@@ -83,12 +83,15 @@ const Chat = ({ chatService, username, baseURL }) => {
   }, [currentRoom, myChatList]);
 
   useEffect(() => {
-    chatService
-      .getRoom(currentRoom)
-      .then((data) => {
-        setUsers(data.users);
-      })
-      .catch((error) => console.error(error));
+    if (currentRoom !== 'list' && currentRoom !== undefined) {
+      console.log(currentRoom);
+      chatService
+        .getRoom(currentRoom)
+        .then((data) => {
+          setUsers(data.users);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [chatService, currentRoom]);
 
   const sendMessage = useCallback(

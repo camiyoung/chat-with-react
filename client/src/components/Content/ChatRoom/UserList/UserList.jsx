@@ -10,7 +10,7 @@ const UserList = ({ users }) => {
       </li>
       {users &&
         users.map((user) => (
-          <li className='user'>
+          <li className='user' key={user}>
             <div className='username'>{user}</div>
           </li>
         ))}
