@@ -49,6 +49,7 @@ export function signUp(username) {
 export async function joinRoom(username, title) {
   const user = await getUser(username);
   user.rooms.push({ title, messages: [] });
+  return user.rooms;
 }
 
 export function roomsByUser(username) {

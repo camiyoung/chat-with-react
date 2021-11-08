@@ -6,7 +6,7 @@ const RoomList = ({ roomList, onClickRoom }) => {
     <div>
       <ul className='rooms'>
         {roomList.map((room) => (
-          <Room room={room.title} onClickRoom={onClickRoom} key={room.id} />
+          <Room room={room.title} onClickRoom={onClickRoom} key={room.title} />
         ))}
       </ul>
     </div>
