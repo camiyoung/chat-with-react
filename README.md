@@ -1,6 +1,6 @@
 # chat-with-react
 
-demo: https://camiyoung.github.io/chat-with-react/
+demo: https://chat-app-with-react-0908.netlify.app/
 
 리액트와 Socket.io, Express로 개발한 채팅 시스템입니다.
 
