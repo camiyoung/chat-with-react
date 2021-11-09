@@ -48,7 +48,7 @@ const Chat = ({ chatService, username, baseURL }) => {
 
   const addToMyChatList = useCallback(
     async (title) => {
-      chatService.joinRoom(username, title);
+      return chatService.joinRoom(username, title);
     },
     [chatService, username]
   );
@@ -112,10 +112,12 @@ const Chat = ({ chatService, username, baseURL }) => {
         if (room.title === title) alreadyIn = true;
       });
       if (!alreadyIn) {
-        await addToMyChatList(title);
+        const info = await addToMyChatList(title);
         setMyChatList((mychatlist) => [...mychatlist, { title, messages: [] }]);
-        socket.emit('user list', { title });
+        socket.emit('user list', { title, users: info.users });
         socket.emit('join', title);
+        console.log(info);
+        setUsers(info.users);
       }
       const roominfo = await getRoomUsers(title);
       setUsers(roominfo);

@@ -42,6 +42,7 @@ export async function addUserToRoom(username, title) {
     });
     if (!alreadyIn) room.users.push(username);
   }
+  return room;
 }
 export async function createRoom(title, user) {
   Rooms = [

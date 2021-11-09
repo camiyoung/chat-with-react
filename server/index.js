@@ -7,7 +7,7 @@ import * as roomRepository from './data/room.js';
 import * as userRepository from './data/users.js';
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 const server = app.listen(port, () => console.log(`서버시작`));
 app.use(cors({ origin: '*' }));
 const io = new Server(server, { cors: { origin: '*' } });
@@ -15,7 +15,7 @@ console.log(port);
 
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(morgan('tiny'));
+app.use(morgan('tiny'));
 
 app.use(router);
 
@@ -42,9 +42,9 @@ io.on('connect', (socket) => {
     });
 
     socket.on('user list', async (room) => {
-      const findRoom = await roomRepository.getRoom(room.title);
-      console.log(findRoom);
-      socket.broadcast.emit('users', findRoom);
+      console.log('user list:');
+      console.log(room);
+      socket.broadcast.emit('users', { title: room.title, users: room.users });
     });
 
     socket.on('sendMessage', async (message, sentRoom, sender) => {

@@ -52,7 +52,7 @@ router.post('/user/:roomtitle', async (req, res) => {
   const result = await userRepository.joinRoom(user, roomtitle);
   const room = await roomRepository.addUserToRoom(user, roomtitle);
 
-  res.status(201).json(result);
+  res.status(201).json(room);
 });
 
 // POST 새로운 유저 가입
