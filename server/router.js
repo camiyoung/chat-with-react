@@ -6,6 +6,9 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.sendStatus(200);
 });
+router.get('/server', (req, res) => {
+  res.status(200).json('Sever is running now!');
+});
 
 //GET 개설된 채팅방 리스트 불러오기
 router.get('/chat', async (req, res) => {

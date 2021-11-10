@@ -3,6 +3,11 @@ export default class ChatService {
     this.http = http;
   }
 
+  async runServer() {
+    return this.http.fetch(`/server`, {
+      method: 'GET',
+    });
+  }
   async signup(username) {
     return this.http.fetch(`/signup`, {
       method: 'POST',
