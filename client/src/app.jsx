@@ -9,7 +9,7 @@ function App({ chatService, baseURL }) {
   const [username, setUsername] = useState();
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter>
       <Switch>
         <Route exact path='/'>
           {!username && (
