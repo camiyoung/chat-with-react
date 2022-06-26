@@ -82,76 +82,248 @@ npm start
 | POST   | /chat            | Object Array | 새로운 방 개설                   |
 | POST   | /user/:roomtitle | Object       | 개설된 채팅방에 참여             |
 
-### API spec
+<details>
+<summary>API 상세 내용 확인</summary>
+<div markdown="1">
 
-#### GET Methods
+### GET /chat
 
-`GET`/chat
+개설된 채팅 방 목록
 
-response
+해당 방의 참여중인 유저 리스트를 확인 할 수 있습니다.
 
-```
-[{room},{room},...]
-```
+#### 요청 항목
 
-`GET`/chat/:roomtitle
-response
+없음.
 
-```
-{room}
-```
+#### 응답 데이터
 
-`GET`/user
-response
+타입 : 배열
 
-```
-[{user},{user},...]
-```
+| 항목명 | 설명  |
+| --- | --- |
+| id | 채팅 방 고유 ID |
+| title | 채팅방 이름 |
+| users | 채팅방에 참여중인 유저 목록  |
 
-`GET`/user/:username
-response
+#### 예시
 
-```
-{user}
-```
-
-#### POST Methods
-
-`POST`/chat
-request
-
-```
-{title:string,username:string}
-```
-
-response
-
-```
-[{room},{room},...]
-```
-
-`POST`/signup
-request
-
-```
-{username:string}
+```jsx
+[
+    {
+        "title": "room1",
+        "users": [
+            "jiyoung",
+            "user1"
+        ],
+        "id": 1
+    },
+    {
+        "title": "room3",
+        "users": [
+            "jiyoung",
+            "user2"
+        ],
+        "id": 2
+    }
+]
 ```
 
-response
+### GET /user
+
+참여중인 모든 유저의 정보를 리턴합니다.
+
+#### 요청 항목
+
+없음
+
+#### 응답 항목
+
+타입 : 배열
+
+| 항목명  | 설명 |
+| --- | --- |
+| id | 유저 고유 ID |
+| username | 유저 이름 |
+| rooms | 유저가 참여중인 방 목록 |
+| title | 채팅방 이름 |
+| messages | 채팅방안의 메세지들 |
+| sender | 메세지 작성자 |
+| message | 메세지 내용 |
+
+#### 예시
+
+
 
 ```
- username
+[
+    {
+        "id": 1,
+        "username": "jiyoung",
+        "rooms": [
+            {
+                "title": "room1",
+                "messages": [
+                    {
+                        "sender": "user1",
+                        "message": "hello"
+                    }
+                ]
+            },
+            {
+                "title": "room3",
+                "messages": [
+                    {
+                        "sender": "user1",
+                        "message": "hello"
+                    },
+                    {
+                        "sender": "user2",
+                        "message": "yeah"
+                    }
+                ]
+            }
+        ]
+    },
+...
+]
 ```
 
-`POST`/user/:roomtitle
-request
+### GET /user/:username
+
+username에 해당하는 정보만 리턴합니다.
+
+#### 요청 항목
+
+없음.
+
+#### 응답 항목
+
+타입 : Object
+
+| 항목명  | 설명 |
+| --- | --- |
+| id | 유저 고유 ID |
+| username | 유저 이름 |
+| rooms | 유저가 참여중인 방 목록 |
+| title | 채팅방 이름 |
+| messages | 채팅방안의 메세지들 |
+| sender | 메세지 작성자 |
+| message | 메세지 내용 |
+
+#### 예시
 
 ```
-{username:string}
+{
+    {
+        "id": 1,
+        "username": "jiyoung",
+        "rooms": [
+            {
+                "title": "room1",
+                "messages": [
+                    {
+                        "sender": "user1",
+                        "message": "hello"
+                    }
+                ]
+            },
+            {
+                "title": "room3",
+                "messages": [
+                    {
+                        "sender": "user1",
+                        "message": "hello"
+                    },
+                    {
+                        "sender": "user2",
+                        "message": "yeah"
+                    }
+                ]
+            }
+        ]
+    },
+}
 ```
 
-response
+
+### POST /signup
+
+채팅 시스템에 유저를 등록합니다.
+
+#### 요청 항목
+
+| 항목명 | 설명 |
+| --- | --- |
+| username  | 유저 이름 |
+
+#### 응답 항목
+
+String 
+
+#### 예시
+
+요청 body
 
 ```
-{room}
+{"username" : "mina"}
 ```
+
+응답 데이터 
+
+```
+"mina"
+```
+
+### POST/chat
+
+새로운 채팅방을 개설합니다.
+
+#### 요청 항목
+
+| 항목명 | 설명 |
+| --- | --- |
+| title | 채팅방 이름 |
+| username | 방을 생성한 username |
+
+#### 응답 항목
+
+현재 개설되어있는 모든 채팅방의 리스트를 리턴합니다.
+
+GET /chat 의 결과와 같음.
+
+#### 예시
+
+요청 body
+
+```
+{
+  "title" : "new room",
+  "username":"jiyoung"
+}
+```
+
+### POST /user/:roomtitle
+
+유저가 채팅방에 참여합니다.
+
+#### 요청 항목
+
+| 항목명 | 설명 |
+| --- | --- |
+| username | 유저 이름 |
+
+#### 응답 항목
+
+없음
+
+#### 예시
+요청 body
+
+```
+{"username":"mina"}
+```
+
+</div>
+</details>
+
